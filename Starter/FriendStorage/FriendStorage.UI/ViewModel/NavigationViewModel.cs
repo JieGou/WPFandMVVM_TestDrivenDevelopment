@@ -1,12 +1,18 @@
 ﻿using FriendStorage.DataAccess;
 using FriendStorage.Model;
-using System;
+using FriendStorage.UI.DataProvider;
 using System.Collections.ObjectModel;
 
 namespace FriendStorage.UI.ViewModel
 {
     public class NavigationViewModel : ViewModelBase
     {
+        #region Private Fields
+
+        private INavigationDataProvider _dataProvider;
+
+        #endregion
+
         #region Properties
 
         public ObservableCollection<Friend> Friends { get; private set; }
@@ -15,9 +21,10 @@ namespace FriendStorage.UI.ViewModel
 
         #region Constructor
 
-        public NavigationViewModel()
+        public NavigationViewModel(INavigationDataProvider dataProvider)
         {
-            Friends = new ObservableCollection<Friend>();   
+            Friends = new ObservableCollection<Friend>();
+            _dataProvider = dataProvider;
         }
 
         #endregion
@@ -26,8 +33,7 @@ namespace FriendStorage.UI.ViewModel
 
         public void Load()
         {
-            var dataService = new FileDataService();
-            foreach (var friend in dataService.GetAllFriends())
+            foreach (var friend in _dataProvider.GetAllFriends())
             {
                 Friends.Add(friend);
             }
