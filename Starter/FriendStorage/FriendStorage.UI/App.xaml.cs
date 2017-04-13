@@ -1,6 +1,10 @@
-﻿using FriendStorage.UI.View;
+﻿using System;
+using System.Runtime.InteropServices;
+using FriendStorage.DataAccess;
+using FriendStorage.UI.View;
 using FriendStorage.UI.ViewModel;
 using System.Windows;
+using FriendStorage.UI.DataProvider;
 
 namespace FriendStorage.UI
 {
@@ -12,7 +16,12 @@ namespace FriendStorage.UI
         {
             base.OnStartup(e);
 
-            var mainWindow = new MainWindow(new MainViewModel());
+            Func<FileDataService> dataService = () => new FileDataService();
+            var navigationDataProvider = new NavigationDataProvider(dataService);
+            var navigationVM = new NavigationViewModel(navigationDataProvider);
+            var mainVM = new MainViewModel(navigationVM);
+
+            var mainWindow = new MainWindow(mainVM);
             mainWindow.Show();
         }
 

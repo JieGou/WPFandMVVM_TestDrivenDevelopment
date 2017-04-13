@@ -1,17 +1,12 @@
-﻿using System;
-using FriendStorage.DataAccess;
-using FriendStorage.UI.DataProvider;
-
-namespace FriendStorage.UI.ViewModel
+﻿namespace FriendStorage.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
         #region Constructor
 
-        public MainViewModel()
+        public MainViewModel(INavigationViewModel navigationViewModel)
         {
-            var provider = new NavigationDataProvider(() => new FileDataService());
-            NavigationViewModel = new NavigationViewModel(provider);
+            NavigationViewModel = navigationViewModel;
         }
 
         #endregion
@@ -27,7 +22,7 @@ namespace FriendStorage.UI.ViewModel
 
         #region Properties
 
-        public NavigationViewModel NavigationViewModel { get; set; }
+        public INavigationViewModel NavigationViewModel { get; set; }
 
         #endregion
     }
