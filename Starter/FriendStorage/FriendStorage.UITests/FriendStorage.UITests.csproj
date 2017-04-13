@@ -51,6 +51,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FriendStorage.Model\FriendStorage.Model.csproj">
+      <Project>{67eb7c6d-721a-4c84-991d-594bd263a0ed}</Project>
+      <Name>FriendStorage.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FriendStorage.UI\FriendStorage.UI.csproj">
       <Project>{d32d4e43-79ca-4fd3-b920-13957f9060e7}</Project>
       <Name>FriendStorage.UI</Name>
