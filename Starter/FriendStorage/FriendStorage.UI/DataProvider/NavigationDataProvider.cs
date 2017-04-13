@@ -24,7 +24,7 @@ namespace FriendStorage.UI.DataProvider
 
         #region Public Methods
 
-        public IEnumerable<Friend> GetAllFriends()
+        public IEnumerable<LookupItem> GetAllFriends()
         {
             using (var dataService = _dataServiceCreator())
             {

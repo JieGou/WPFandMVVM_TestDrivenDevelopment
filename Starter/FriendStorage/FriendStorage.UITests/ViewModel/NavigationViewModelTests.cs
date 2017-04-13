@@ -31,10 +31,10 @@ namespace FriendStorage.UITests.ViewModel
     {
         #region Public Methods
 
-        public IEnumerable<Friend> GetAllFriends()
+        public IEnumerable<LookupItem> GetAllFriends()
         {
-            yield return new Friend {Id = 1, FirstName = "Julia"};
-            yield return new Friend {Id = 2, FirstName = "Thomas"};
+            yield return new LookupItem { Id = 1, DisplayMember = "Julia"};
+            yield return new LookupItem { Id = 2, DisplayMember = "Thomas"};
         }
 
         #endregion
