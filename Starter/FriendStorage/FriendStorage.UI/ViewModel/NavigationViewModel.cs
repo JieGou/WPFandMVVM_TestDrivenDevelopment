@@ -20,7 +20,7 @@ namespace FriendStorage.UI.ViewModel
 
         #region Properties
 
-        public ObservableCollection<LookupItem> Friends { get; private set; }
+        public ObservableCollection<NavigationItemViewModel> Friends { get; private set; }
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace FriendStorage.UI.ViewModel
 
         public NavigationViewModel(INavigationDataProvider dataProvider)
         {
-            Friends = new ObservableCollection<LookupItem>();
+            Friends = new ObservableCollection<NavigationItemViewModel>();
             _dataProvider = dataProvider;
         }
 
@@ -39,9 +39,9 @@ namespace FriendStorage.UI.ViewModel
         public void Load()
         {
             Friends.Clear();
-            foreach (var friend in _dataProvider.GetAllFriends())
+            foreach (var f in _dataProvider.GetAllFriends())
             {
-                Friends.Add(friend);
+                Friends.Add(new NavigationItemViewModel(f.Id, f.DisplayMember));
             }
         }
 
