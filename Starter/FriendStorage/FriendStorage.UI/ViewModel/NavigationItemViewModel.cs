@@ -1,6 +1,7 @@
-﻿using System;
+﻿using FriendStorage.UI.Command;
+using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Windows.Input;
-using FriendStorage.UI.Command;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -37,7 +38,7 @@ namespace FriendStorage.UI.ViewModel
 
         #region Constructor
 
-        public NavigationItemViewModel(int id, string displayMember)
+        public NavigationItemViewModel(int id, string displayMember, IMessenger messenger)
         {
             Id = id;
             DisplayMember = displayMember;

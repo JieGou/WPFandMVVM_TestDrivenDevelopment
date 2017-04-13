@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
 using FriendStorage.UI.ViewModel;
+using GalaSoft.MvvmLight.Messaging;
 using Moq;
 using NUnit.Framework;
 
@@ -17,6 +18,7 @@ namespace FriendStorage.UITests.ViewModel
         [SetUp]
         public void SetUp()
         {
+            var messenger = new Mock<IMessenger>();
             _navigationDataProviderMock = new Mock<INavigationDataProvider>();
             _navigationDataProviderMock.Setup(dp => dp.GetAllFriends())
                 .Returns(new List<LookupItem>
@@ -26,7 +28,7 @@ namespace FriendStorage.UITests.ViewModel
                 });
 
             _viewModel = new NavigationViewModel(
-                _navigationDataProviderMock.Object);
+                _navigationDataProviderMock.Object, messenger.Object);
         }
 
         [Test]

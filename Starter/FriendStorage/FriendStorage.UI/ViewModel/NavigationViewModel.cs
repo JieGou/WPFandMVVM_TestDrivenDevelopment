@@ -1,6 +1,7 @@
 ﻿using FriendStorage.DataAccess;
 using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 
 namespace FriendStorage.UI.ViewModel
@@ -15,6 +16,7 @@ namespace FriendStorage.UI.ViewModel
         #region Private Fields
 
         private INavigationDataProvider _dataProvider;
+        private IMessenger _messenger;
 
         #endregion
 
@@ -26,10 +28,11 @@ namespace FriendStorage.UI.ViewModel
 
         #region Constructor
 
-        public NavigationViewModel(INavigationDataProvider dataProvider)
+        public NavigationViewModel(INavigationDataProvider dataProvider, IMessenger messenger)
         {
             Friends = new ObservableCollection<NavigationItemViewModel>();
             _dataProvider = dataProvider;
+            _messenger = messenger;
         }
 
         #endregion
@@ -41,7 +44,7 @@ namespace FriendStorage.UI.ViewModel
             Friends.Clear();
             foreach (var f in _dataProvider.GetAllFriends())
             {
-                Friends.Add(new NavigationItemViewModel(f.Id, f.DisplayMember));
+                Friends.Add(new NavigationItemViewModel(f.Id, f.DisplayMember, _messenger));
             }
         }
 
