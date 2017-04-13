@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.UI", "FriendStorage.UI\FriendStorage.UI.csproj", "{D32D4E43-79CA-4FD3-B920-13957F9060E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.DataAccess", "FriendStorage.DataAccess\FriendStorage.DataAccess.csproj", "{ED3B0A8C-BCE2-427B-8DA8-AC7F1388DD2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.Model", "FriendStorage.Model\FriendStorage.Model.csproj", "{67EB7C6D-721A-4C84-991D-594BD263A0ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{A927E7F9-D15A-4356-B293-0AF04CC0044A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.gitattributes = ..\..\.gitattributes
+		..\..\.gitignore = ..\..\.gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
