@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		..\..\.gitignore = ..\..\.gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.UITests", "FriendStorage.UITests\FriendStorage.UITests.csproj", "{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{67EB7C6D-721A-4C84-991D-594BD263A0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67EB7C6D-721A-4C84-991D-594BD263A0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67EB7C6D-721A-4C84-991D-594BD263A0ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
