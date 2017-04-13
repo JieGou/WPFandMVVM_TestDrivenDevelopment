@@ -1,10 +1,11 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using Autofac;
 using FriendStorage.DataAccess;
 using FriendStorage.UI.View;
 using FriendStorage.UI.ViewModel;
-using System.Windows;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Startup;
+using System;
+using System.Windows;
 
 namespace FriendStorage.UI
 {
@@ -15,13 +16,10 @@ namespace FriendStorage.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            var bootStrapper = new BootStrapper();
+            var container = bootStrapper.BootStrap();
 
-            Func<FileDataService> dataService = () => new FileDataService();
-            var navigationDataProvider = new NavigationDataProvider(dataService);
-            var navigationVM = new NavigationViewModel(navigationDataProvider);
-            var mainVM = new MainViewModel(navigationVM);
-
-            var mainWindow = new MainWindow(mainVM);
+            var mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
         }
 
