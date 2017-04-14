@@ -1,7 +1,12 @@
 ﻿namespace FriendStorage.UI.ViewModel
 {
-  public class FriendEditViewModel : ViewModelBase
-  {
- 
-  }
+    public interface IFriendEditViewModel
+    {
+        
+    }
+
+    public class FriendEditViewModel : ViewModelBase, IFriendEditViewModel
+    {
+
+    }
 }
