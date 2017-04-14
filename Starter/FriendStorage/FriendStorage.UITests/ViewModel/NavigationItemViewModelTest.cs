@@ -14,13 +14,14 @@ namespace FriendStorage.UITests.ViewModel
         {
             const int friendId = 7;
 
-            var messengerMock = new Mock<IMessenger>();
-            var viewModel = new NavigationItemViewModel(friendId, "Thomas", messengerMock.Object);
-            var message = new OpenFriendEditViewMessage(friendId);
+            var mockRepository = new MockRepository(MockBehavior.Loose);
+            var mockMessenger = mockRepository.Create<IMessenger>();
+            var viewModel = new NavigationItemViewModel(friendId, "Dicky", mockMessenger.Object);
 
             viewModel.OpenFriendEditViewCommand.Execute(null);
 
-            messengerMock.Verify(m => m.Send(message), Times.Once);
+            mockMessenger.Verify(p => p.Send(It.Is<OpenFriendEditViewMessage>(m => m.FriendId == friendId)), 
+                Times.Once);
         }
     }
 }

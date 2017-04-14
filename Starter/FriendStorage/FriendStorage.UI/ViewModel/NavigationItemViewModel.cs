@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Windows.Input;
+using FriendStorage.UI.Messages;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -11,6 +12,7 @@ namespace FriendStorage.UI.ViewModel
 
         private string _displayMember;
         private int _id;
+        private IMessenger _messenger;
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace FriendStorage.UI.ViewModel
             Id = id;
             DisplayMember = displayMember;
             OpenFriendEditViewCommand = new DelegateCommand(OnFriendEditViewExecute);
+            _messenger = messenger;
         }
 
         #endregion
@@ -51,7 +54,7 @@ namespace FriendStorage.UI.ViewModel
 
         private void OnFriendEditViewExecute(object obj)
         {
-            throw new NotImplementedException();
+            _messenger.Send(new OpenFriendEditViewMessage(Id));
         }
 
         #endregion
