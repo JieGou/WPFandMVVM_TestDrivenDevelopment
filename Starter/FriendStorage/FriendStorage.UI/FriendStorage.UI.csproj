@@ -81,6 +81,7 @@
     </ApplicationDefinition>
     <Compile Include="DataProvider\INavigationDataProvider.cs" />
     <Compile Include="DataProvider\NavigationDataProvider.cs" />
+    <Compile Include="Messages\OpenFriendEditViewMessage.cs" />
     <Compile Include="Startup\BootStrapper.cs" />
     <Compile Include="ViewModel\FriendEditViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
