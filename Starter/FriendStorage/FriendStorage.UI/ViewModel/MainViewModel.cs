@@ -8,7 +8,7 @@ namespace FriendStorage.UI.ViewModel
     {
         #region Private Fields
 
-        private FriendEditViewModel _selectedFriendEditViewModel;
+        private IFriendEditViewModel _selectedFriendEditViewModel;
         private Func<IFriendEditViewModel> _friendEditVmCreator;
         private IMessenger _messenger;
 
@@ -19,7 +19,7 @@ namespace FriendStorage.UI.ViewModel
         public INavigationViewModel NavigationViewModel { get; set; }
         public ObservableCollection<IFriendEditViewModel> FriendEditViewModels { get; private set; }
 
-        public FriendEditViewModel SelectedFriendEditViewModel
+        public IFriendEditViewModel SelectedFriendEditViewModel
         {
             get { return _selectedFriendEditViewModel; }
             set { _selectedFriendEditViewModel = value; }
