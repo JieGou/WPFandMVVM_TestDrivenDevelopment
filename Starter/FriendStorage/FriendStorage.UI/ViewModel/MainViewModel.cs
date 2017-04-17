@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using FriendStorage.UI.Messages;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace FriendStorage.UI.ViewModel
@@ -36,6 +37,8 @@ namespace FriendStorage.UI.ViewModel
             FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
             _friendEditVmCreator = friendEditVmCreator;
             _messenger = messenger;
+
+            MessageRegistration();
         }
 
         #endregion
@@ -48,5 +51,21 @@ namespace FriendStorage.UI.ViewModel
         }
 
         #endregion
+
+        /// <summary>
+        /// Handles all event registration for this view model.
+        /// </summary>
+        private void MessageRegistration()
+        {
+            _messenger.Register<OpenFriendEditViewMessage>(this, HandleOpenFriendEditViewMessageReceived);
+        }
+
+        private void HandleOpenFriendEditViewMessageReceived(OpenFriendEditViewMessage msg)
+        {
+            var friendEditVm = _friendEditVmCreator();
+            FriendEditViewModels.Add(friendEditVm);
+            friendEditVm.Load(msg.FriendId);
+            SelectedFriendEditViewModel = friendEditVm;
+        }
     }
 }
