@@ -3,6 +3,7 @@ using System.Linq;
 using FriendStorage.Model;
 using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
+using FriendStorage.UITests.Extensions;
 using GalaSoft.MvvmLight.Messaging;
 using Moq;
 using NUnit.Framework;
@@ -61,6 +62,20 @@ namespace FriendStorage.UITests.ViewModel
             _testMessenger.Send(new OpenFriendEditViewMessage(7));
 
             Assert.AreEqual(3, _viewModel.FriendEditViewModels.Count);
+        }
+
+        [Test]
+        public void ShouldRaisePropertyChangedEventFriendEditViewModel()
+        {
+            var friendEditVmMock = new Mock<IFriendEditViewModel>();
+
+            var fired = _viewModel.IsPropertyChangedFired(() =>
+            {
+                _viewModel.SelectedFriendEditViewModel = friendEditVmMock.Object;
+
+            }, nameof(_viewModel.SelectedFriendEditViewModel));
+
+            Assert.True(fired);
         }
 
         #region Private Methods
