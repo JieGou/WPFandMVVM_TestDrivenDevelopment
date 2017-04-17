@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FriendStorage.UI.Messages;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -62,7 +63,11 @@ namespace FriendStorage.UI.ViewModel
 
         private void HandleOpenFriendEditViewMessageReceived(OpenFriendEditViewMessage msg)
         {
-            var friendEditVm = _friendEditVmCreator();
+            var friendEditVm = FriendEditViewModels.SingleOrDefault(vm => vm.Friend.Id == msg.FriendId);
+
+            if (friendEditVm != null) return;
+
+            friendEditVm = _friendEditVmCreator();
             FriendEditViewModels.Add(friendEditVm);
             friendEditVm.Load(msg.FriendId);
             SelectedFriendEditViewModel = friendEditVm;

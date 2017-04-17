@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FriendStorage.Model;
 using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
 using GalaSoft.MvvmLight.Messaging;
@@ -50,11 +51,31 @@ namespace FriendStorage.UITests.ViewModel
             _friendEditViewModelMocks.First().Verify(vm => vm.Load(friendId), Times.Once);
         }
 
+        [Test]
+        public void ShouldAddFriendEditViewModelsOnlyOnce()
+        {
+            _testMessenger.Send(new OpenFriendEditViewMessage(5));
+            _testMessenger.Send(new OpenFriendEditViewMessage(5));
+            _testMessenger.Send(new OpenFriendEditViewMessage(6));
+            _testMessenger.Send(new OpenFriendEditViewMessage(7));
+            _testMessenger.Send(new OpenFriendEditViewMessage(7));
+
+            Assert.AreEqual(3, _viewModel.FriendEditViewModels.Count);
+        }
+
         #region Private Methods
 
         private IFriendEditViewModel CreateFriendEditViewModel()
         {
             var friendEditViewModelMock = new Mock<IFriendEditViewModel>();
+
+            friendEditViewModelMock.Setup(vm => vm.Load(It.IsAny<int>()))
+                .Callback<int>(friendId =>
+                {
+                    friendEditViewModelMock.Setup(vm => vm.Friend)
+                        .Returns(new Friend {Id = friendId});
+                });
+
             _friendEditViewModelMocks.Add(friendEditViewModelMock);
             return friendEditViewModelMock.Object;
         }
