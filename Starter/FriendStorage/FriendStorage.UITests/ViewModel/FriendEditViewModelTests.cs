@@ -4,6 +4,7 @@ using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
 using FriendStorage.UITests.Extensions;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Views;
 using Moq;
 using NUnit.Framework;
 
@@ -14,6 +15,7 @@ namespace FriendStorage.UITests.ViewModel
     {
         private const int _friendId = 5;
         private Mock<IFriendDataProvider> _dataProviderMock;
+        private Mock<IDialogService> _dialogService;
         private FriendEditViewModel _viewModel;
         private Messenger _testMessenger;
 
@@ -24,9 +26,12 @@ namespace FriendStorage.UITests.ViewModel
             _dataProviderMock.Setup(dp => dp.GetFriendById(_friendId))
                 .Returns(new Friend { Id = _friendId, FirstName = "Johnny"});
 
+            _dialogService = new Mock<IDialogService>();
+
             _testMessenger = new Messenger();
 
-            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger);
+            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger, 
+                _dialogService.Object);
         }
 
         [Test]

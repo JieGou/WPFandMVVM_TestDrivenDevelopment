@@ -7,6 +7,7 @@ using FriendStorage.UI.DataProvider;
 using FriendStorage.UI.Messages;
 using FriendStorage.UI.Wrapper;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Views;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -23,6 +24,7 @@ namespace FriendStorage.UI.ViewModel
         private IFriendDataProvider _dataProvider;
         private FriendWrapper _friend;
         private IMessenger _messenger;
+        private IDialogService _dialogService;
 
         #endregion
 
@@ -45,10 +47,12 @@ namespace FriendStorage.UI.ViewModel
 
         #region Constructor
 
-        public FriendEditViewModel(IFriendDataProvider dataProvider, IMessenger messenger)
+        public FriendEditViewModel(IFriendDataProvider dataProvider, IMessenger messenger,
+            IDialogService dialogService)
         {
             _dataProvider = dataProvider;
             _messenger = messenger;
+            _dialogService = dialogService;
 
             DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
