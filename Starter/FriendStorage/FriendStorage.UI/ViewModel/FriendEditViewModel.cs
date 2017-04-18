@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using FriendStorage.Model;
 using FriendStorage.UI.Command;
@@ -54,6 +55,9 @@ namespace FriendStorage.UI.ViewModel
         {
             var friend = _dataProvider.GetFriendById(friendId);
             Friend = new FriendWrapper(friend);
+
+            Friend.PropertyChanged += Friend_PropertyChanged;
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         #endregion
@@ -68,6 +72,11 @@ namespace FriendStorage.UI.ViewModel
         private bool OnSaveCanExecute(object args)
         {
             return Friend != null && Friend.IsChanged;
+        }
+
+        private void Friend_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
         }
 
         #endregion
