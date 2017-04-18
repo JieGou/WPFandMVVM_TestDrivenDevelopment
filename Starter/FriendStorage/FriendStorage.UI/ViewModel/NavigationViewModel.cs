@@ -60,6 +60,7 @@ namespace FriendStorage.UI.ViewModel
         private void MessageRegistration()
         {
             _messenger.Register<FriendSavedMessage>(this, HandleFriendSavedMessageReceived);
+            _messenger.Register<FriendDeletedMessage>(this, HandleFriendDeletedMessageReceived);
         }
 
         private void HandleFriendSavedMessageReceived(FriendSavedMessage msg)
@@ -78,7 +79,12 @@ namespace FriendStorage.UI.ViewModel
                     displayMember, _messenger);
                 Friends.Add(navigationItem);
             }
+        }
 
+        private void HandleFriendDeletedMessageReceived(FriendDeletedMessage msg)
+        {
+            var navigationItem = Friends.SingleOrDefault(n => n.Id == msg.FriendId);
+            Friends.Remove(navigationItem);
         }
     }
 }

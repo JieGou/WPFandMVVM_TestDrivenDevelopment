@@ -90,5 +90,17 @@ namespace FriendStorage.UITests.ViewModel
             Assert.NotNull(addedItem);
             Assert.AreEqual("Johnny Pockets", addedItem.DisplayMember);
         }
+
+        [Test]
+        public void ShouldRemoveNavigationItemWhenFriendIsDeleted()
+        {
+            _viewModel.Load();
+            var deletedFriendId = _viewModel.Friends.First().Id;
+
+            var friendDeletedMessage = new FriendDeletedMessage(deletedFriendId);
+            _testMessenger.Send(friendDeletedMessage);
+
+            Assert.AreEqual(1, _viewModel.Friends.Count);
+        }
     }
 }
