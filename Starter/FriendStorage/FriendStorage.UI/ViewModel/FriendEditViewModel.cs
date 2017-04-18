@@ -66,7 +66,8 @@ namespace FriendStorage.UI.ViewModel
 
         private void OnSaveExecute(object obj)
         {
-            throw new NotImplementedException();
+            _dataProvider.SaveFriend(Friend.Model);
+            Friend.AcceptChanges();
         }
 
         private bool OnSaveCanExecute(object args)

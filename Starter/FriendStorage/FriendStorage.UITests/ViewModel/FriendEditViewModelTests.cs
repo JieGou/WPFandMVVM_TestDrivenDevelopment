@@ -78,12 +78,33 @@ namespace FriendStorage.UITests.ViewModel
             Assert.True(fired);
         }
 
+        [Test]
         public void ShouldRaiseCanExecuteChangedForSaveCommandAfterLoad()
         {
             var fired = false;
             _viewModel.SaveCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Load(_friendId);
             Assert.True(fired);
+        }
+
+        [Test]
+        public void ShouldCallSaveMethodOfDataProviderWhenSaveCommandIsExecuted()
+        {
+            _viewModel.Load(_friendId);
+            _viewModel.Friend.FirstName = "Changed";
+
+            _viewModel.SaveCommand.Execute(null);
+            _dataProviderMock.Verify(dp => dp.SaveFriend(_viewModel.Friend.Model), Times.Once);
+        }
+
+        [Test]
+        public void ShouldAcceptChangesWhenSaveCommandIsExecuted()
+        {
+            _viewModel.Load(_friendId);
+            _viewModel.Friend.FirstName = "Changed";
+            _viewModel.SaveCommand.Execute(null);
+
+            Assert.False(_viewModel.Friend.IsChanged);
         }
     }
 }
