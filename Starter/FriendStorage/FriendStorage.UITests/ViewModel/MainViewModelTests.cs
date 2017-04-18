@@ -101,6 +101,22 @@ namespace FriendStorage.UITests.ViewModel
             _friendEditViewModelMocks.First().Verify(vm => vm.Load(null), Times.Once);
         }
 
+        [Test]
+        public void ShouldRemoveFriendEditViewModelOnDeletedMessage()
+        {
+            const int deletedFriendId = 7;
+
+            _viewModel.Load();
+            _testMessenger.Send(new OpenFriendEditViewMessage(deletedFriendId));
+            _testMessenger.Send(new OpenFriendEditViewMessage(8));
+            _testMessenger.Send(new OpenFriendEditViewMessage(9));
+
+            _testMessenger.Send(new FriendDeletedMessage(deletedFriendId));
+
+            Assert.AreEqual(2, _viewModel.FriendEditViewModels.Count);
+            Assert.True(_viewModel.FriendEditViewModels.All(vm => vm.Friend.Id != deletedFriendId));
+        }
+
         #region Private Methods
 
         private IFriendEditViewModel CreateFriendEditViewModel()

@@ -72,6 +72,7 @@ namespace FriendStorage.UI.ViewModel
         private void MessageRegistration()
         {
             _messenger.Register<OpenFriendEditViewMessage>(this, HandleOpenFriendEditViewMessageReceived);
+            _messenger.Register<FriendDeletedMessage>(this, HandleFriendDeletedMessageReceived);
         }
 
         private void HandleOpenFriendEditViewMessageReceived(OpenFriendEditViewMessage msg)
@@ -81,6 +82,12 @@ namespace FriendStorage.UI.ViewModel
             if (friendEditVm != null) return;
 
             SetSelectedFriendEditVm(msg.FriendId);
+        }
+
+        private void HandleFriendDeletedMessageReceived(FriendDeletedMessage msg)
+        {
+            var friendEditVm = FriendEditViewModels.SingleOrDefault(vm => vm.Friend.Id == msg.FriendId);
+            FriendEditViewModels.Remove(friendEditVm);
         }
 
         private void OnAddFriendExecute(object obj)
