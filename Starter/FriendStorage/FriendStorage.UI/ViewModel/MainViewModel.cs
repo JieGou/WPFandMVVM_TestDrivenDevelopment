@@ -22,7 +22,8 @@ namespace FriendStorage.UI.ViewModel
 
         public INavigationViewModel NavigationViewModel { get; set; }
         public ObservableCollection<IFriendEditViewModel> FriendEditViewModels { get; private set; }
-        public ICommand CloseFriendTabCommand { get; set; }
+        public ICommand AddFriendCommand { get; private set; }
+        public ICommand CloseFriendTabCommand { get; private set; }
 
         public IFriendEditViewModel SelectedFriendEditViewModel
         {
@@ -47,6 +48,7 @@ namespace FriendStorage.UI.ViewModel
 
             FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
             CloseFriendTabCommand = new DelegateCommand(OnCloseFriendTabExecute);
+            AddFriendCommand = new DelegateCommand(OnAddFriendExecute);
 
             MessageRegistration();
         }
@@ -82,6 +84,11 @@ namespace FriendStorage.UI.ViewModel
             FriendEditViewModels.Add(friendEditVm);
             friendEditVm.Load(msg.FriendId);
             SelectedFriendEditViewModel = friendEditVm;
+        }
+
+        private void OnAddFriendExecute(object obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnCloseFriendTabExecute(object obj)
