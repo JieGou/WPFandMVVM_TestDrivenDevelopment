@@ -37,6 +37,7 @@ namespace FriendStorage.UI.ViewModel
             }
         }
 
+        public ICommand DeleteCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
         #endregion
@@ -47,6 +48,8 @@ namespace FriendStorage.UI.ViewModel
         {
             _dataProvider = dataProvider;
             _messenger = messenger;
+
+            DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
@@ -69,6 +72,17 @@ namespace FriendStorage.UI.ViewModel
         #endregion
 
         #region Private Methods
+
+        private void OnDeleteExecute(object obj)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private bool OnDeleteCanExecute(object args)
+        {
+            // friend Id > 0 means that friend is not new
+            return Friend != null && Friend.Id > 0;
+        }
 
         private void OnSaveExecute(object obj)
         {
