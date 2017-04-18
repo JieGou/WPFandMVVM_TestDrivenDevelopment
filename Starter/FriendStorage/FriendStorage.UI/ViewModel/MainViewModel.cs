@@ -99,8 +99,14 @@ namespace FriendStorage.UI.ViewModel
             var friendEditVm = _friendEditVmCreator();
             FriendEditViewModels.Add(friendEditVm);
 
-            if(friendId == null) friendEditVm.Load(null);
-            if(friendId != null) friendEditVm.Load(friendId.Value);
+            if (friendId.HasValue)
+            {
+                friendEditVm.Load(friendId.Value);
+            }
+            else
+            {
+                friendEditVm.Load(null);
+            }
 
             SelectedFriendEditViewModel = friendEditVm;
         }
