@@ -70,7 +70,7 @@ namespace FriendStorage.UI.ViewModel
         {
             _dataProvider.SaveFriend(Friend.Model);
             Friend.AcceptChanges();
-            _messenger.Send(new FriendSavedMessage());
+            _messenger.Send(new FriendSavedMessage(Friend.Model));
         }
 
         private bool OnSaveCanExecute(object args)

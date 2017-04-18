@@ -3,6 +3,8 @@ using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FriendStorage.UI.Messages;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -33,6 +35,8 @@ namespace FriendStorage.UI.ViewModel
             Friends = new ObservableCollection<NavigationItemViewModel>();
             _dataProvider = dataProvider;
             _messenger = messenger;
+
+            MessageRegistration();
         }
 
         #endregion
@@ -49,5 +53,20 @@ namespace FriendStorage.UI.ViewModel
         }
 
         #endregion
+
+        /// <summary>
+        /// Handle all Message registration for this viewmodel.
+        /// </summary>
+        private void MessageRegistration()
+        {
+            _messenger.Register<FriendSavedMessage>(this, HandleFriendSavedMessageReceived);
+        }
+
+        private void HandleFriendSavedMessageReceived(FriendSavedMessage msg)
+        {
+            var friend = msg.Friend;
+            var navigationItem = Friends.Single(n => n.Id == friend.Id);
+            navigationItem.DisplayMember = $"{friend.FirstName} {friend.LastName}";
+        }
     }
 }
