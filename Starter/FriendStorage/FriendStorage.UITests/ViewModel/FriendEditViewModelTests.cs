@@ -158,5 +158,25 @@ namespace FriendStorage.UITests.ViewModel
         {
             Assert.False(_viewModel.DeleteCommand.CanExecute(null));
         }
+
+        [Test]
+        public void ShouldRaiseCanExecuteChangedForDeleteCommandWhenAcceptingChanges()
+        {
+            _viewModel.Load(_friendId);
+            var fired = false;
+            _viewModel.DeleteCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.Friend.AcceptChanges();
+            Assert.True(fired);
+        }
+        
+        [Test]
+        public void ShouldRaiseCanExecuteChangedForDeleteCommandAfterLoad()
+        {
+            var fired = false;
+            _viewModel.DeleteCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.Load(_friendId);
+            Assert.True(fired);
+        }
+
     }
 }

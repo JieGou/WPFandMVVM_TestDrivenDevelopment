@@ -66,7 +66,7 @@ namespace FriendStorage.UI.ViewModel
             Friend = new FriendWrapper(friend);
 
             Friend.PropertyChanged += Friend_PropertyChanged;
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            InvalidateCommands();
         }
 
         #endregion
@@ -98,7 +98,13 @@ namespace FriendStorage.UI.ViewModel
 
         private void Friend_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            InvalidateCommands();
+        }
+
+        private void InvalidateCommands()
+        {
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
         }
 
         #endregion
