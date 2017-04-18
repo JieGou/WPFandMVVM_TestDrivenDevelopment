@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
+using FriendStorage.UI.Command;
 using FriendStorage.UI.Messages;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -20,6 +22,7 @@ namespace FriendStorage.UI.ViewModel
 
         public INavigationViewModel NavigationViewModel { get; set; }
         public ObservableCollection<IFriendEditViewModel> FriendEditViewModels { get; private set; }
+        public ICommand CloseFriendTabCommand { get; set; }
 
         public IFriendEditViewModel SelectedFriendEditViewModel
         {
@@ -39,9 +42,11 @@ namespace FriendStorage.UI.ViewModel
             Func<IFriendEditViewModel> friendEditVmCreator, IMessenger messenger)
         {
             NavigationViewModel = navigationViewModel;
-            FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
             _friendEditVmCreator = friendEditVmCreator;
             _messenger = messenger;
+
+            FriendEditViewModels = new ObservableCollection<IFriendEditViewModel>();
+            CloseFriendTabCommand = new DelegateCommand(OnCloseFriendTabExecute);
 
             MessageRegistration();
         }
@@ -56,6 +61,8 @@ namespace FriendStorage.UI.ViewModel
         }
 
         #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Handles all event registration for this view model.
@@ -76,5 +83,13 @@ namespace FriendStorage.UI.ViewModel
             friendEditVm.Load(msg.FriendId);
             SelectedFriendEditViewModel = friendEditVm;
         }
+
+        private void OnCloseFriendTabExecute(object obj)
+        {
+            var friendEditVm = (IFriendEditViewModel) obj;
+            FriendEditViewModels.Remove(friendEditVm);
+        }
+
+        #endregion
     }
 }
