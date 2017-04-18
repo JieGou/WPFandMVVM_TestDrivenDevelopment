@@ -15,19 +15,18 @@ namespace FriendStorage.UITests.ViewModel
         private const int _friendId = 5;
         private Mock<IFriendDataProvider> _dataProviderMock;
         private FriendEditViewModel _viewModel;
-        private Mock<IMessenger> _mockMessenger;
+        private Messenger _testMessenger;
 
         [SetUp]
         public void SetUp()
         {
-            var mockRepository = new MockRepository(MockBehavior.Loose);
-            _mockMessenger = mockRepository.Create<IMessenger>();
-
             _dataProviderMock = new Mock<IFriendDataProvider>();
             _dataProviderMock.Setup(dp => dp.GetFriendById(_friendId))
                 .Returns(new Friend { Id = _friendId, FirstName = "Johnny"});
 
-            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _mockMessenger.Object);
+            _testMessenger = new Messenger();
+
+            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger);
         }
 
         [Test]
@@ -116,12 +115,18 @@ namespace FriendStorage.UITests.ViewModel
         [Test]
         public void ShouldSendFriendSavedMessageWhenSaveCommandIsExecuted()
         {
+            FriendSavedMessage receivedMsg = null;
+
+            _testMessenger.Register<FriendSavedMessage>(this, msg =>
+            {
+                receivedMsg = msg;
+            });
+
             _viewModel.Load(_friendId);
             _viewModel.Friend.FirstName = "Changed";
             _viewModel.SaveCommand.Execute(null);
-
-            _mockMessenger.Verify(p => p.Send(It.IsAny<FriendSavedMessage>()),
-                            Times.Once);
+            
+            Assert.AreEqual(_friendId, receivedMsg.Friend.Id);    
         }
 
         [Test]
