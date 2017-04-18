@@ -6,7 +6,7 @@ using FriendStorage.UI.Messages;
 
 namespace FriendStorage.UI.ViewModel
 {
-    public class NavigationItemViewModel
+    public class NavigationItemViewModel : ViewModelBase
     {
         #region Private Fields
 
@@ -33,7 +33,11 @@ namespace FriendStorage.UI.ViewModel
         public string DisplayMember
         {
             get { return _displayMember; }
-            set { _displayMember = value; }
+            set
+            {
+                _displayMember = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion
