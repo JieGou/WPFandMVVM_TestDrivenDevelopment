@@ -77,6 +77,7 @@ namespace FriendStorage.UI.ViewModel
         private void OnDeleteExecute(object obj)
         {
             _dataProvider.DeleteFriend(Friend.Id);
+            _messenger.Send(new FriendDeletedMessage(Friend.Id));
         }
 
         private bool OnDeleteCanExecute(object args)

@@ -83,6 +83,7 @@
     <Compile Include="DataProvider\IFriendDataProvider.cs" />
     <Compile Include="DataProvider\INavigationDataProvider.cs" />
     <Compile Include="DataProvider\NavigationDataProvider.cs" />
+    <Compile Include="Messages\FriendDeletedMessage.cs" />
     <Compile Include="Messages\FriendSavedMessage.cs" />
     <Compile Include="Messages\OpenFriendEditViewMessage.cs" />
     <Compile Include="Startup\BootStrapper.cs" />

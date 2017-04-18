@@ -126,6 +126,7 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.Friend.FirstName = "Changed";
             _viewModel.SaveCommand.Execute(null);
             
+            Assert.NotNull(receivedMsg);
             Assert.AreEqual(_friendId, receivedMsg.Friend.Id);    
         }
 
@@ -191,6 +192,23 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.DeleteCommand.Execute(null);
 
             _dataProviderMock.Verify(dp => dp.DeleteFriend(_friendId), Times.Once);
+        }
+
+        [Test]
+        public void ShouldSendFriendDeletedEventWhenDeleteCommandIsExecuted()
+        {
+            FriendDeletedMessage receivedMessage = null;
+
+            _testMessenger.Register<FriendDeletedMessage>(this, msg =>
+            {
+                receivedMessage = msg;
+            });
+
+            _viewModel.Load(_friendId);
+            _viewModel.DeleteCommand.Execute(null);
+
+            Assert.NotNull(receivedMessage);
+            Assert.AreEqual(_friendId, receivedMessage.FriendId);
         }
     }
 }
