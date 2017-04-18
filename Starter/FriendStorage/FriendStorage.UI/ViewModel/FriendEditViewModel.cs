@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Windows.Input;
 using FriendStorage.Model;
+using FriendStorage.UI.Command;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Wrapper;
 
 namespace FriendStorage.UI.ViewModel
 {
     public interface IFriendEditViewModel
     {
-        Friend Friend { get; }
+        FriendWrapper Friend { get; }
         void Load(int friendId);
     }
 
@@ -15,13 +18,13 @@ namespace FriendStorage.UI.ViewModel
         #region Private Fields
 
         private IFriendDataProvider _dataProvider;
-        private Friend _friend;
+        private FriendWrapper _friend;
 
         #endregion
 
         #region Properties
 
-        public Friend Friend
+        public FriendWrapper Friend
         {
             get { return _friend; }
             private set
@@ -31,6 +34,8 @@ namespace FriendStorage.UI.ViewModel
             }
         }
 
+        public ICommand SaveCommand { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -38,6 +43,7 @@ namespace FriendStorage.UI.ViewModel
         public FriendEditViewModel(IFriendDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         #endregion
@@ -46,7 +52,22 @@ namespace FriendStorage.UI.ViewModel
 
         public void Load(int friendId)
         {
-            Friend = _dataProvider.GetFriendById(friendId);
+            var friend = _dataProvider.GetFriendById(friendId);
+            Friend = new FriendWrapper(friend);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void OnSaveExecute(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool OnSaveCanExecute(object args)
+        {
+            return Friend != null && Friend.IsChanged;
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Linq;
 using FriendStorage.Model;
 using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
+using FriendStorage.UI.Wrapper;
 using FriendStorage.UITests.Extensions;
 using GalaSoft.MvvmLight.Messaging;
 using Moq;
@@ -99,8 +100,9 @@ namespace FriendStorage.UITests.ViewModel
             friendEditViewModelMock.Setup(vm => vm.Load(It.IsAny<int>()))
                 .Callback<int>(friendId =>
                 {
+                    var friend = new Friend {Id = friendId};
                     friendEditViewModelMock.Setup(vm => vm.Friend)
-                        .Returns(new Friend {Id = friendId});
+                        .Returns(new FriendWrapper(friend));
                 });
 
             _friendEditViewModelMocks.Add(friendEditViewModelMock);
