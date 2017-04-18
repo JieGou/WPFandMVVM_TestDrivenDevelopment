@@ -80,21 +80,29 @@ namespace FriendStorage.UI.ViewModel
 
             if (friendEditVm != null) return;
 
-            friendEditVm = _friendEditVmCreator();
-            FriendEditViewModels.Add(friendEditVm);
-            friendEditVm.Load(msg.FriendId);
-            SelectedFriendEditViewModel = friendEditVm;
+            SetSelectedFriendEditVm(msg.FriendId);
         }
 
         private void OnAddFriendExecute(object obj)
         {
-            throw new NotImplementedException();
+            SetSelectedFriendEditVm(null);
         }
 
         private void OnCloseFriendTabExecute(object obj)
         {
             var friendEditVm = (IFriendEditViewModel) obj;
             FriendEditViewModels.Remove(friendEditVm);
+        }
+
+        private void SetSelectedFriendEditVm(int? friendId)
+        {
+            var friendEditVm = _friendEditVmCreator();
+            FriendEditViewModels.Add(friendEditVm);
+
+            if(friendId == null) friendEditVm.Load(null);
+            if(friendId != null) friendEditVm.Load(friendId.Value);
+
+            SelectedFriendEditViewModel = friendEditVm;
         }
 
         #endregion
