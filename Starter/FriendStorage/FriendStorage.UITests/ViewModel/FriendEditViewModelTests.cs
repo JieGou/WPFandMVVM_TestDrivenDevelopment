@@ -1,7 +1,9 @@
 ﻿using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
 using FriendStorage.UITests.Extensions;
+using GalaSoft.MvvmLight.Messaging;
 using Moq;
 using NUnit.Framework;
 
@@ -13,15 +15,19 @@ namespace FriendStorage.UITests.ViewModel
         private const int _friendId = 5;
         private Mock<IFriendDataProvider> _dataProviderMock;
         private FriendEditViewModel _viewModel;
+        private Mock<IMessenger> _mockMessenger;
 
         [SetUp]
         public void SetUp()
         {
+            var mockRepository = new MockRepository(MockBehavior.Loose);
+            _mockMessenger = mockRepository.Create<IMessenger>();
+
             _dataProviderMock = new Mock<IFriendDataProvider>();
             _dataProviderMock.Setup(dp => dp.GetFriendById(_friendId))
                 .Returns(new Friend { Id = _friendId, FirstName = "Johnny"});
 
-            _viewModel = new FriendEditViewModel(_dataProviderMock.Object);
+            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _mockMessenger.Object);
         }
 
         [Test]
@@ -105,6 +111,17 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.SaveCommand.Execute(null);
 
             Assert.False(_viewModel.Friend.IsChanged);
+        }
+
+        [Test]
+        public void ShouldSendFriendSavedMessageWhenSaveCommandIsExecuted()
+        {
+            _viewModel.Load(_friendId);
+            _viewModel.Friend.FirstName = "Changed";
+            _viewModel.SaveCommand.Execute(null);
+
+            _mockMessenger.Verify(p => p.Send(It.IsAny<FriendSavedMessage>()),
+                            Times.Once);
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
-using FriendStorage.Model;
 using FriendStorage.UI.Command;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Messages;
 using FriendStorage.UI.Wrapper;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -20,6 +20,7 @@ namespace FriendStorage.UI.ViewModel
 
         private IFriendDataProvider _dataProvider;
         private FriendWrapper _friend;
+        private IMessenger _messenger;
 
         #endregion
 
@@ -41,9 +42,10 @@ namespace FriendStorage.UI.ViewModel
 
         #region Constructor
 
-        public FriendEditViewModel(IFriendDataProvider dataProvider)
+        public FriendEditViewModel(IFriendDataProvider dataProvider, IMessenger messenger)
         {
             _dataProvider = dataProvider;
+            _messenger = messenger;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
@@ -68,6 +70,7 @@ namespace FriendStorage.UI.ViewModel
         {
             _dataProvider.SaveFriend(Friend.Model);
             Friend.AcceptChanges();
+            _messenger.Send(new FriendSavedMessage());
         }
 
         private bool OnSaveCanExecute(object args)
