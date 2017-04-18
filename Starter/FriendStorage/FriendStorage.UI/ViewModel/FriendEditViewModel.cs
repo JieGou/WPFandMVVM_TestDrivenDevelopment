@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using FriendStorage.Model;
 using FriendStorage.UI.Command;
@@ -75,7 +76,7 @@ namespace FriendStorage.UI.ViewModel
 
         private void OnDeleteExecute(object obj)
         {
-            throw new System.NotImplementedException();
+            _dataProvider.DeleteFriend(Friend.Id);
         }
 
         private bool OnDeleteCanExecute(object args)

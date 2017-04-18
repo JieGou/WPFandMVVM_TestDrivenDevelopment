@@ -178,5 +178,14 @@ namespace FriendStorage.UITests.ViewModel
             Assert.True(fired);
         }
 
+        [Test]
+        public void ShouldCallDeleteFriendWhenDeleteCommandIsExecuted()
+        {
+            _viewModel.Load(_friendId);
+
+            _viewModel.DeleteCommand.Execute(null);
+
+            _dataProviderMock.Verify(dp => dp.DeleteFriend(_friendId), Times.Once);
+        }
     }
 }
