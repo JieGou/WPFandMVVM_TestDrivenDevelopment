@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\..\.gitattributes = ..\..\.gitattributes
 		..\..\.gitignore = ..\..\.gitignore
+		..\..\LICENSE.md = ..\..\LICENSE.md
+		..\..\README.md = ..\..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.UITests", "FriendStorage.UITests\FriendStorage.UITests.csproj", "{3CA07A55-EEC9-4FFB-972C-1D50994A02A2}"
