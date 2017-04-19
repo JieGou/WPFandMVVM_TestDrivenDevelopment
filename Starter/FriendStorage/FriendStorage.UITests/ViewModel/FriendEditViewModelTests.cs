@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
 using FriendStorage.UI.Messages;

@@ -1,9 +1,11 @@
 ﻿using Autofac;
 using FriendStorage.DataAccess;
 using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.Dialogs;
 using FriendStorage.UI.View;
 using FriendStorage.UI.ViewModel;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Views;
 
 namespace FriendStorage.UI.Startup
 {
@@ -22,6 +24,7 @@ namespace FriendStorage.UI.Startup
             builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
             builder.RegisterType<FriendDataProvider>().As<IFriendDataProvider>();
             builder.RegisterType<FriendEditViewModel>().As<IFriendEditViewModel>();
+            builder.RegisterType<DialogService>().As<IDialogService>();
 
             return builder.Build();
         }
