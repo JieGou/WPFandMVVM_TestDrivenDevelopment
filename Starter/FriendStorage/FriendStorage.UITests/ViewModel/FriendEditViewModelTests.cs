@@ -27,13 +27,13 @@ namespace FriendStorage.UITests.ViewModel
         {
             _dataProviderMock = new Mock<IFriendDataProvider>();
             _dataProviderMock.Setup(dp => dp.GetFriendById(_friendId))
-                .Returns(new Friend { Id = _friendId, FirstName = "Johnny"});
+                .Returns(new Friend {Id = _friendId, FirstName = "Johnny"});
 
             _dialogServiceMock = new Mock<IDialogService>();
 
             _testMessenger = new Messenger();
 
-            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger, 
+            _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger,
                 _dialogServiceMock.Object);
         }
 
@@ -133,9 +133,9 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.Load(_friendId);
             _viewModel.Friend.FirstName = "Changed";
             _viewModel.SaveCommand.Execute(null);
-            
+
             Assert.NotNull(receivedMsg);
-            Assert.AreEqual(_friendId, receivedMsg.Friend.Id);    
+            Assert.AreEqual(_friendId, receivedMsg.Friend.Id);
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.Friend.AcceptChanges();
             Assert.True(fired);
         }
-        
+
         [Test]
         public void ShouldRaiseCanExecuteChangedForDeleteCommandAfterLoad()
         {
@@ -201,7 +201,7 @@ namespace FriendStorage.UITests.ViewModel
             _viewModel.Load(_friendId);
 
             _dialogServiceMock
-                .Setup(ds => ds.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), 
+                .Setup(ds => ds.ShowMessage(It.IsAny<string>(), It.IsAny<string>(),
                     It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<bool>>()))
                 .Callback<string, string, string, string, Action<bool>>((s1, s2, s3, s4, confirm) =>
                 {
@@ -246,6 +246,24 @@ namespace FriendStorage.UITests.ViewModel
                 Assert.NotNull(receivedMessage);
                 Assert.AreEqual(_friendId, receivedMessage.FriendId);
             }
+        }
+
+        [Test]
+        public void ShouldDisplayCorrectMessageInDeleteDialog()
+        {
+            _viewModel.Load(_friendId);
+
+            var f = _viewModel.Friend;
+            f.FirstName = "Johnny";
+            f.LastName = "Pockets";
+
+            _viewModel.DeleteCommand.Execute(null);
+
+            string expectedTitle = "Delete Friend";
+            string expectedMessage = $"Do you really want to delete the friend {f.FirstName} {f.LastName}?";
+
+            _dialogServiceMock.Verify(d => d.ShowMessage(expectedMessage, expectedTitle,
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<bool>>()), Times.Once);
         }
     }
 }

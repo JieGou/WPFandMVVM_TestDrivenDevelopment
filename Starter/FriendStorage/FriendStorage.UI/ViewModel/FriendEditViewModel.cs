@@ -82,8 +82,12 @@ namespace FriendStorage.UI.ViewModel
 
         private async void OnDeleteExecute(object obj)
         {
-            await _dialogService.ShowMessage("Delete friend", "Confirmation",
-                "Delete", "Cancel", confirmed =>
+            string title = "Delete Friend";
+            string msg = $"Do you really want to delete the friend {Friend.FirstName} " +
+                         $"{Friend.LastName}?";
+
+            await _dialogService.ShowMessage(msg, title,
+                "Yes", "No", confirmed =>
                 {
                     if (!confirmed) return;
                     _dataProvider.DeleteFriend(Friend.Id);
