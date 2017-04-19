@@ -1,4 +1,6 @@
-﻿using FriendStorage.Model;
+﻿using System;
+using System.Threading.Tasks;
+using FriendStorage.Model;
 using FriendStorage.UI.DataProvider;
 using FriendStorage.UI.Messages;
 using FriendStorage.UI.ViewModel;
@@ -14,8 +16,9 @@ namespace FriendStorage.UITests.ViewModel
     public class FriendEditViewModelTests
     {
         private const int _friendId = 5;
+
         private Mock<IFriendDataProvider> _dataProviderMock;
-        private Mock<IDialogService> _dialogService;
+        private Mock<IDialogService> _dialogServiceMock;
         private FriendEditViewModel _viewModel;
         private Messenger _testMessenger;
 
@@ -26,12 +29,12 @@ namespace FriendStorage.UITests.ViewModel
             _dataProviderMock.Setup(dp => dp.GetFriendById(_friendId))
                 .Returns(new Friend { Id = _friendId, FirstName = "Johnny"});
 
-            _dialogService = new Mock<IDialogService>();
+            _dialogServiceMock = new Mock<IDialogService>();
 
             _testMessenger = new Messenger();
 
             _viewModel = new FriendEditViewModel(_dataProviderMock.Object, _testMessenger, 
-                _dialogService.Object);
+                _dialogServiceMock.Object);
         }
 
         [Test]
@@ -190,17 +193,31 @@ namespace FriendStorage.UITests.ViewModel
         }
 
         [Test]
-        public void ShouldCallDeleteFriendWhenDeleteCommandIsExecuted()
+        [TestCase(true, 1)]
+        [TestCase(false, 0)]
+        public void ShouldCallDeleteFriendWhenDeleteCommandIsExecutedAndDialogConfirmed(
+            bool dialogResult, int expectedInvokations)
         {
             _viewModel.Load(_friendId);
 
+            _dialogServiceMock
+                .Setup(ds => ds.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<bool>>()))
+                .Callback<string, string, string, string, Action<bool>>((s1, s2, s3, s4, confirm) =>
+                {
+                    confirm(dialogResult);
+                });
+
             _viewModel.DeleteCommand.Execute(null);
 
-            _dataProviderMock.Verify(dp => dp.DeleteFriend(_friendId), Times.Once);
+            _dataProviderMock.Verify(dp => dp.DeleteFriend(_friendId), Times.Exactly(expectedInvokations));
         }
 
         [Test]
-        public void ShouldSendFriendDeletedEventWhenDeleteCommandIsExecuted()
+        [TestCase(true, false)]
+        [TestCase(false, true)]
+        public void ShouldSendFriendDeletedEventWhenDeleteCommandIsExecuted(
+            bool dialogResult, bool msgNull)
         {
             FriendDeletedMessage receivedMessage = null;
 
@@ -209,11 +226,26 @@ namespace FriendStorage.UITests.ViewModel
                 receivedMessage = msg;
             });
 
+            _dialogServiceMock
+                .Setup(ds => ds.ShowMessage(It.IsAny<string>(), It.IsAny<string>(),
+                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Action<bool>>()))
+                .Callback<string, string, string, string, Action<bool>>((s1, s2, s3, s4, confirm) =>
+                {
+                    confirm(dialogResult);
+                });
+
             _viewModel.Load(_friendId);
             _viewModel.DeleteCommand.Execute(null);
 
-            Assert.NotNull(receivedMessage);
-            Assert.AreEqual(_friendId, receivedMessage.FriendId);
+            if (msgNull)
+            {
+                Assert.Null(receivedMessage);
+            }
+            else
+            {
+                Assert.NotNull(receivedMessage);
+                Assert.AreEqual(_friendId, receivedMessage.FriendId);
+            }
         }
     }
 }

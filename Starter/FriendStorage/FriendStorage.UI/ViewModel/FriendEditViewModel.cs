@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FriendStorage.Model;
 using FriendStorage.UI.Command;
@@ -78,10 +80,15 @@ namespace FriendStorage.UI.ViewModel
 
         #region Private Methods
 
-        private void OnDeleteExecute(object obj)
+        private async void OnDeleteExecute(object obj)
         {
-            _dataProvider.DeleteFriend(Friend.Id);
-            _messenger.Send(new FriendDeletedMessage(Friend.Id));
+            await _dialogService.ShowMessage("Delete friend", "Confirmation",
+                "Delete", "Cancel", confirmed =>
+                {
+                    if (!confirmed) return;
+                    _dataProvider.DeleteFriend(Friend.Id);
+                    _messenger.Send(new FriendDeletedMessage(Friend.Id));
+                });
         }
 
         private bool OnDeleteCanExecute(object args)
