@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:FriendStorage.UI.ViewModel"
+             xmlns:behaviors="clr-namespace:FriendStorage.UI.Behaviors"
              mc:Ignorable="d"
              d:DesignHeight="350" d:DesignWidth="700"
              d:DataContext="{d:DesignInstance viewModel:FriendEditViewModel}"
@@ -29,21 +30,16 @@
         </Grid.ColumnDefinitions>
 
         <Label Content="Firstname" Margin="5" />
-        <TextBox Text="{Binding Friend.FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1">
-            <TextBox.Style>
-                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Friend.FirstNameIsChanged}" Value="true">
-                            <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}"/>
-                            <Setter Property="ToolTip" Value="{Binding Friend.FirstNameOriginalValue}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+        <TextBox Text="{Binding Friend.FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 behaviors:ChangeBehavior.IsChanged="{Binding Friend.FirstNameIsChanged}"
+                 behaviors:ChangeBehavior.OriginalValue="{Binding Friend.FirstNameOriginalValue}"
+                 Grid.Column="1" />
 
         <Label Content="Lastname" Grid.Row="2" Margin="5" />
-        <TextBox Text="{Binding Friend.LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"
+        <TextBox Text="{Binding Friend.LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 behaviors:ChangeBehavior.IsChanged="{Binding Friend.LastNameIsChanged}"
+                 behaviors:ChangeBehavior.OriginalValue="{Binding Friend.LastNameOriginalValue}"
+                 Grid.Row="2"
                  Grid.Column="1" />
 
         <Label Content="Birthday" Grid.Row="3" Margin="5" />
