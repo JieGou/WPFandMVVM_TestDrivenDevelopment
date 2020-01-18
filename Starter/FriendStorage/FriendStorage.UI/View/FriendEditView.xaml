@@ -71,27 +71,13 @@
             <Button Command="{Binding RemoveEmailCommand}" Style="{StaticResource RemoveButtonStyle}"
                     HorizontalAlignment="Right" />
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Friend.Emails}" SelectedItem="{Binding SelectedEmail,Mode=TwoWay}" Grid.Row="6"
-                  Grid.Column="1" Grid.ColumnSpan="4" Margin="0 5" Width="538">
+        <DataGrid ItemsSource="{Binding Friend.Emails}" SelectedItem="{Binding SelectedEmail,Mode=TwoWay}"
+                  behaviors:DataGridChangeBehavior.IsActive="True"
+                  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Margin="0 5" Width="538">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Email"
                                     Binding="{Binding Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                    Width="300">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
-                            <Setter Property="behaviors:ChangeBehavior.IsActive" Value="False" />
-                            <Setter Property="behaviors:ChangeBehavior.IsChanged" Value="{Binding EmailIsChanged}" />
-                            <Setter Property="behaviors:ChangeBehavior.OriginalValue" Value="{Binding EmailOriginalValue}" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                    <DataGridTextColumn.EditingElementStyle>
-                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                            <Setter Property="behaviors:ChangeBehavior.IsActive" Value="False" />
-                            <Setter Property="behaviors:ChangeBehavior.IsChanged" Value="{Binding EmailIsChanged}" />
-                            <Setter Property="behaviors:ChangeBehavior.OriginalValue" Value="{Binding EmailOriginalValue}" />
-                        </Style>
-                    </DataGridTextColumn.EditingElementStyle>
-                </DataGridTextColumn>
+                                    Width="300" />
                 <DataGridTextColumn Header="Comment"
                                     Binding="{Binding Comment,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     Width="*" />
