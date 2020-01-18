@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using FriendStorage.UI.Command;
@@ -41,6 +42,8 @@ namespace FriendStorage.UI.ViewModel
 
         // Those ViewModels represent the Tab-Pages in the UI
         public ObservableCollection<IFriendEditViewModel> FriendEditViewModels { get; }
+
+        public bool IsChanged => FriendEditViewModels.Any(f => f.Friend.IsChanged);
 
         public IFriendEditViewModel SelectedFriendEditViewModel
         {
@@ -100,6 +103,16 @@ namespace FriendStorage.UI.ViewModel
             var friendDetailVmToClose
                 = FriendEditViewModels.SingleOrDefault(f => f.Friend.Id == friendId);
             if (friendDetailVmToClose != null) FriendEditViewModels.Remove(friendDetailVmToClose);
+        }
+
+        public void OnClosing(CancelEventArgs cancelEventArgs)
+        {
+            if (!IsChanged) return;
+            
+            var result = _messageDialogService.ShowYesNoDialog("Close application?",
+                "You'll lose your changes if you close this application. Close it?",
+                MessageDialogResult.No);
+            cancelEventArgs.Cancel = result == MessageDialogResult.No;
         }
     }
 }
