@@ -10,19 +10,23 @@ namespace FriendStorage.UI.Behaviors
     //Note generate code snippets in VS as `propa`, with Resharper as `attachedProperty`
     public static class ChangeBehavior
     {
+        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
+            "IsActive", typeof(bool), typeof(ChangeBehavior), new PropertyMetadata(default(bool), OnIsActivePropertyChanged));
+
         public static readonly DependencyProperty IsChangedProperty = DependencyProperty.RegisterAttached(
             "IsChanged", typeof(bool), typeof(ChangeBehavior), new PropertyMetadata(default(bool)));
 
         public static readonly DependencyProperty OriginalValueProperty = DependencyProperty.RegisterAttached(
             "OriginalValue", typeof(object), typeof(ChangeBehavior), new PropertyMetadata(default(object)));
 
-        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
-            "IsActive", typeof(bool), typeof(ChangeBehavior), new PropertyMetadata(default(bool), OnIsActivePropertyChanged));
+        public static readonly DependencyProperty OriginalValueConverterProperty = DependencyProperty.RegisterAttached(
+            "OriginalValueConverter", typeof(IValueConverter), typeof(ChangeBehavior), new PropertyMetadata(default(IValueConverter), OnOriginalValuePropertyConverterChanged));
 
         private static readonly Dictionary<Type,DependencyProperty> _defaultProperties = new Dictionary<Type, DependencyProperty>()
         {
             [typeof(TextBox)] = TextBox.TextProperty,
             [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
+            [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
         };  
 
         public static void SetIsActive(DependencyObject element, bool value)
@@ -55,6 +59,16 @@ namespace FriendStorage.UI.Behaviors
             return element.GetValue(OriginalValueProperty);
         }
 
+        public static void SetOriginalValueConverter(DependencyObject element, IValueConverter value)
+        {
+            element.SetValue(OriginalValueConverterProperty, value);
+        }
+
+        public static IValueConverter GetOriginalValueConverter(DependencyObject element)
+        {
+            return (IValueConverter) element.GetValue(OriginalValueConverterProperty);
+        }
+
         private static void OnIsActivePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (_defaultProperties.ContainsKey(d.GetType()))
@@ -67,7 +81,7 @@ namespace FriendStorage.UI.Behaviors
                     {
                         var bindingPath = binding.Path.Path;
                         BindingOperations.SetBinding(d, IsChangedProperty, new Binding(bindingPath + "IsChanged"));
-                        BindingOperations.SetBinding(d, OriginalValueProperty, new Binding(bindingPath + "OriginalValue"));
+                        CreateOriginalValueBinding(d, bindingPath + "OriginalValue");
                     }
                 }
                 else
@@ -76,6 +90,23 @@ namespace FriendStorage.UI.Behaviors
                     BindingOperations.ClearBinding(d,OriginalValueProperty);
                 }
             }
+        }
+
+        private static void OnOriginalValuePropertyConverterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (BindingOperations.GetBinding(d, OriginalValueProperty) is { } originalValueBinding)
+            {
+                CreateOriginalValueBinding(d, originalValueBinding.Path.Path);
+            }
+        }
+
+        private static void CreateOriginalValueBinding(DependencyObject d, string originalValueBindingPath)
+        {
+            var newBinding = new Binding(originalValueBindingPath)
+            {
+                Converter = GetOriginalValueConverter(d)
+            };
+            BindingOperations.SetBinding(d, OriginalValueProperty, newBinding);
         }
     }
 }
