@@ -56,7 +56,7 @@ namespace FriendStorage.UI.ViewModel
 
     public Friend Friend
     {
-      get { return _friend; }
+      get => _friend;
       set
       {
         _friend = value;
@@ -66,7 +66,7 @@ namespace FriendStorage.UI.ViewModel
 
     public IEnumerable<LookupItem> FriendGroupLookup
     {
-      get { return _friendGroups; }
+      get => _friendGroups;
       set
       {
         _friendGroups = value;
@@ -76,7 +76,7 @@ namespace FriendStorage.UI.ViewModel
 
     public FriendEmail SelectedEmail
     {
-      get { return _selectedEmail; }
+      get => _selectedEmail;
       set
       {
         _selectedEmail = value;
@@ -128,7 +128,7 @@ namespace FriendStorage.UI.ViewModel
     {
       var result = _messageDialogService.ShowYesNoDialog(
           "Delete Friend",
-          string.Format("Do you really want to delete the friend '{0} {1}'", Friend.FirstName, Friend.LastName),
+          $"Do you really want to delete the friend '{Friend.FirstName} {Friend.LastName}'",
           MessageDialogResult.No);
 
       if (result == MessageDialogResult.Yes)

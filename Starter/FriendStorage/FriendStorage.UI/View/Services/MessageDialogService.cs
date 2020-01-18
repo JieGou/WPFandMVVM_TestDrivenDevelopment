@@ -9,9 +9,11 @@ namespace FriendStorage.UI.View.Services
     public MessageDialogResult ShowYesNoDialog(string title, string text,
       MessageDialogResult defaultResult = MessageDialogResult.Yes)
     {
-      var dlg = new MessageDialog(title, text, defaultResult, MessageDialogResult.Yes, MessageDialogResult.No);
-      dlg.Owner = Application.Current.MainWindow;
-      return dlg.ShowDialog();
+        var dlg = new MessageDialog(title, text, defaultResult, MessageDialogResult.Yes, MessageDialogResult.No)
+        {
+            Owner = Application.Current.MainWindow
+        };
+        return dlg.ShowDialog();
     }
   }
 }

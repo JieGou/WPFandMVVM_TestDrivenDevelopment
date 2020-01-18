@@ -15,26 +15,20 @@ namespace FriendStorage.UI.DataProvider
 
     public Friend GetFriendById(int id)
     {
-      using (var dataService = _dataServiceCreator())
-      {
+        using var dataService = _dataServiceCreator();
         return dataService.GetFriendById(id);
-      }
     }
 
     public void SaveFriend(Friend friend)
     {
-      using (var dataService = _dataServiceCreator())
-      {
+        using var dataService = _dataServiceCreator();
         dataService.SaveFriend(friend);
-      }
     }
 
     public void DeleteFriend(int id)
     {
-      using (var dataService = _dataServiceCreator())
-      {
+        using var dataService = _dataServiceCreator();
         dataService.DeleteFriend(id);
-      }
     }
   }
 }

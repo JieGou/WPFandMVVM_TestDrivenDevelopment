@@ -32,8 +32,7 @@ namespace FriendStorage.UI.View.Services
 
     private void ButtonClick(object sender, RoutedEventArgs e)
     {
-      var button = e.Source as Button;
-      if (button != null)
+        if (e.Source is Button button)
       {
         _result = (MessageDialogResult)button.Tag;
         this.Close();

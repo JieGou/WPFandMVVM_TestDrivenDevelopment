@@ -14,7 +14,7 @@ namespace FriendStorage.UI.ViewModel
     private readonly IEventAggregator _eventAggregator;
     private readonly IMessageDialogService _messageDialogService;
     private IFriendEditViewModel _selectedFriendEditViewModel;
-    private Func<IFriendEditViewModel> _friendEditViewModelCreator;
+    private readonly Func<IFriendEditViewModel> _friendEditViewModelCreator;
 
     public MainViewModel(IEventAggregator eventAggregator,
         IMessageDialogService messageDialogService,
@@ -49,7 +49,7 @@ namespace FriendStorage.UI.ViewModel
 
     public IFriendEditViewModel SelectedFriendEditViewModel
     {
-      get { return _selectedFriendEditViewModel; }
+      get => _selectedFriendEditViewModel;
       set
       {
         _selectedFriendEditViewModel = value;
@@ -80,12 +80,11 @@ namespace FriendStorage.UI.ViewModel
 
     private void OnCloseFriendTabExecute(object parameter)
     {
-      var friendEditVmToClose = parameter as IFriendEditViewModel;
-      if (friendEditVmToClose != null)
-      {
-        // TODO: Check if the Friend has changes and ask user to cancel
-        FriendEditViewModels.Remove(friendEditVmToClose);
-      }
+        if (parameter is IFriendEditViewModel friendEditVmToClose)
+        {
+            // TODO: Check if the Friend has changes and ask user to cancel
+            FriendEditViewModels.Remove(friendEditVmToClose);
+        }
     }
 
     private void OnFriendDeleted(int friendId)

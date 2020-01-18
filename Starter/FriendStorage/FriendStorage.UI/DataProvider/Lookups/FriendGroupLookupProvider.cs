@@ -17,17 +17,15 @@ namespace FriendStorage.UI.DataProvider.Lookups
 
     public IEnumerable<LookupItem> GetLookup()
     {
-      using (var service = _dataServiceCreator())
-      {
+        using var service = _dataServiceCreator();
         return service.GetAllFriendGroups()
-                .Select(f => new LookupItem
-                {
-                  Id = f.Id,
-                  DisplayValue = f.Name
-                })
-                .OrderBy(l => l.DisplayValue)
-                .ToList();
-      }
+            .Select(f => new LookupItem
+            {
+                Id = f.Id,
+                DisplayValue = f.Name
+            })
+            .OrderBy(l => l.DisplayValue)
+            .ToList();
     }
 
   }

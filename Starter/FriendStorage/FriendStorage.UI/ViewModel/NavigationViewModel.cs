@@ -60,7 +60,7 @@ namespace FriendStorage.UI.ViewModel
         NavigationItems.SingleOrDefault(item => item.FriendId == savedFriend.Id);
       if (navigationItem != null)
       {
-        navigationItem.DisplayValue = string.Format("{0} {1}", savedFriend.FirstName, savedFriend.LastName);
+        navigationItem.DisplayValue = $"{savedFriend.FirstName} {savedFriend.LastName}";
       }
       else
       {
@@ -90,7 +90,7 @@ namespace FriendStorage.UI.ViewModel
 
     public string DisplayValue
     {
-      get { return _displayValue; }
+      get => _displayValue;
       set
       {
         _displayValue = value;
