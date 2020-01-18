@@ -85,6 +85,10 @@ namespace FriendStorage.UI.ViewModel
                 : new Friend {Address = new Address(), Emails = new List<FriendEmail>()};
 
             Friend = new FriendWrapper(friend);
+            Friend.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(Friend.IsChanged)) InvalidateCommands();
+            };
 
             InvalidateCommands();
         }
@@ -92,7 +96,7 @@ namespace FriendStorage.UI.ViewModel
         public FriendWrapper Friend
         {
             get => _friend;
-            set
+            private set
             {
                 _friend = value;
                 OnPropertyChanged();
@@ -102,24 +106,24 @@ namespace FriendStorage.UI.ViewModel
         private void OnSaveExecute(object obj)
         {
             _friendDataProvider.SaveFriend(Friend.Model);
+            Friend.AcceptChanges();
             _eventAggregator.GetEvent<FriendSavedEvent>().Publish(Friend.Model);
             InvalidateCommands();
         }
 
         private bool OnSaveCanExecute(object arg)
         {
-            // TODO: Check for HasChanges
-            return true;
+            return Friend.IsChanged;
         }
 
         private void OnResetExecute(object obj)
         {
+            Friend.RejectChanges();
         }
 
         private bool OnResetCanExecute(object arg)
         {
-            // TODO: Check for HasChanges
-            return false;
+            return Friend.IsChanged;
         }
 
         private bool OnDeleteCanExecute(object arg)

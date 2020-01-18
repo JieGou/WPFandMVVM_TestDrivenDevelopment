@@ -83,7 +83,14 @@ namespace FriendStorage.UI.ViewModel
         {
             if (parameter is IFriendEditViewModel friendEditVmToClose)
             {
-                // TODO: Check if the Friend has changes and ask user to cancel
+                if (friendEditVmToClose.Friend.IsChanged)
+                {
+                    var result = _messageDialogService.ShowYesNoDialog("Close tab?",
+                        "You'll lose your changes if you close this tab. Close it?",
+                        MessageDialogResult.No);
+                    if (result == MessageDialogResult.No) return;
+                }
+
                 FriendEditViewModels.Remove(friendEditVmToClose);
             }
         }

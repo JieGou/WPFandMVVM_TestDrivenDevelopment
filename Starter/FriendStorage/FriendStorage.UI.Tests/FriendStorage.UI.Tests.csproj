@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Wrapper\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FriendStorage.Model\FriendStorage.Model.csproj" />
     <ProjectReference Include="..\FriendStorage.UI\FriendStorage.UI.csproj" />
   </ItemGroup>
