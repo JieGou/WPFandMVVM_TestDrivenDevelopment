@@ -27,6 +27,7 @@ namespace FriendStorage.UI.Behaviors
             [typeof(TextBox)] = TextBox.TextProperty,
             [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
             [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
+            [typeof(ComboBox)] = Selector.SelectedValueProperty,
         };  
 
         public static void SetIsActive(DependencyObject element, bool value)
@@ -104,7 +105,8 @@ namespace FriendStorage.UI.Behaviors
         {
             var newBinding = new Binding(originalValueBindingPath)
             {
-                Converter = GetOriginalValueConverter(d)
+                Converter = GetOriginalValueConverter(d),
+                ConverterParameter = d
             };
             BindingOperations.SetBinding(d, OriginalValueProperty, newBinding);
         }
