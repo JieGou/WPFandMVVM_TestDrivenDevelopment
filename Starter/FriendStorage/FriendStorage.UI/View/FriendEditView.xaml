@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:FriendStorage.UI.ViewModel"
              xmlns:behaviors="clr-namespace:FriendStorage.UI.Behaviors"
+             xmlns:controls="clr-namespace:FriendStorage.UI.View.Controls"
              mc:Ignorable="d"
              d:DesignHeight="350" d:DesignWidth="700"
              d:DataContext="{d:DesignInstance viewModel:FriendEditViewModel}"
@@ -18,6 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -84,7 +86,9 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Grid.Row="7" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left"
+        <controls:ChangeTrackingCollectionInfo DataContext="{Binding Friend.Emails}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4" />
+
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom">
             <Button Content="Save" Command="{Binding SaveCommand}" Margin="5" />
             <Button Content="Reset" Command="{Binding ResetCommand}" Margin="5" />

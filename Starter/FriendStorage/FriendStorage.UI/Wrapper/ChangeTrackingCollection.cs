@@ -6,6 +6,11 @@ using System.Linq;
 
 namespace FriendStorage.UI.Wrapper
 {
+    internal class ChangeTrackingCollectionDesignInstance : ChangeTrackingCollection<AddressWrapper> {
+        internal ChangeTrackingCollectionDesignInstance(IEnumerable<AddressWrapper> items) : base(items)
+        {
+        }
+    }
     public class ChangeTrackingCollection<T> : ObservableCollection<T>, IRevertibleChangeTracking
         where T : class, IRevertibleChangeTracking, INotifyPropertyChanged
     {
