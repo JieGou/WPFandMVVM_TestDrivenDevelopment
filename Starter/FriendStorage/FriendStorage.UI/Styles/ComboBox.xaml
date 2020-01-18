@@ -40,7 +40,8 @@
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ControlBaseStyle}">
-        <Setter Property="behaviors:ChangeBehavior.OriginalValueConverter" Value="{DynamicResource ComboBoxOriginalValueConverter}" />
+        <Setter Property="behaviors:ChangeBehavior.OriginalValueConverter"
+                Value="{DynamicResource ComboBoxOriginalValueConverter}" />
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}" />
         <Setter Property="Background" Value="{StaticResource DefaultBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderBrush}" />

@@ -45,22 +45,22 @@ namespace FriendStorage.UI.Tests.Wrapper
         }
 
         [Fact]
+        public void ShouldBeInSyncAfterClearingEmails()
+        {
+            var wrapper = new FriendWrapper(_friend);
+
+            wrapper.Emails.Clear();
+
+            CheckIfModelEmailsCollectionIsInSync(wrapper);
+        }
+
+        [Fact]
         public void ShouldBeInSyncAfterRemovingEmail()
         {
             var wrapper = new FriendWrapper(_friend);
 
             var emailToRemove = wrapper.Emails.Single(ew => ew.Model == _friendEmail);
             wrapper.Emails.Remove(emailToRemove);
-
-            CheckIfModelEmailsCollectionIsInSync(wrapper);
-        }
-
-        [Fact]
-        public void ShouldBeInSyncAfterClearingEmails()
-        {
-            var wrapper = new FriendWrapper(_friend);
-
-            wrapper.Emails.Clear();
 
             CheckIfModelEmailsCollectionIsInSync(wrapper);
         }

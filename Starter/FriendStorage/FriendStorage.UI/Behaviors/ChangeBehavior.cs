@@ -11,7 +11,8 @@ namespace FriendStorage.UI.Behaviors
     public static class ChangeBehavior
     {
         public static readonly DependencyProperty IsActiveProperty = DependencyProperty.RegisterAttached(
-            "IsActive", typeof(bool), typeof(ChangeBehavior), new PropertyMetadata(default(bool), OnIsActivePropertyChanged));
+            "IsActive", typeof(bool), typeof(ChangeBehavior),
+            new PropertyMetadata(default(bool), OnIsActivePropertyChanged));
 
         public static readonly DependencyProperty IsChangedProperty = DependencyProperty.RegisterAttached(
             "IsChanged", typeof(bool), typeof(ChangeBehavior), new PropertyMetadata(default(bool)));
@@ -20,15 +21,17 @@ namespace FriendStorage.UI.Behaviors
             "OriginalValue", typeof(object), typeof(ChangeBehavior), new PropertyMetadata(default(object)));
 
         public static readonly DependencyProperty OriginalValueConverterProperty = DependencyProperty.RegisterAttached(
-            "OriginalValueConverter", typeof(IValueConverter), typeof(ChangeBehavior), new PropertyMetadata(default(IValueConverter), OnOriginalValuePropertyConverterChanged));
+            "OriginalValueConverter", typeof(IValueConverter), typeof(ChangeBehavior),
+            new PropertyMetadata(default(IValueConverter), OnOriginalValuePropertyConverterChanged));
 
-        private static readonly Dictionary<Type,DependencyProperty> _defaultProperties = new Dictionary<Type, DependencyProperty>()
-        {
-            [typeof(TextBox)] = TextBox.TextProperty,
-            [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
-            [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
-            [typeof(ComboBox)] = Selector.SelectedValueProperty,
-        };  
+        private static readonly Dictionary<Type, DependencyProperty> _defaultProperties =
+            new Dictionary<Type, DependencyProperty>
+            {
+                [typeof(TextBox)] = TextBox.TextProperty,
+                [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
+                [typeof(DatePicker)] = DatePicker.SelectedDateProperty,
+                [typeof(ComboBox)] = Selector.SelectedValueProperty
+            };
 
         public static void SetIsActive(DependencyObject element, bool value)
         {
@@ -87,18 +90,17 @@ namespace FriendStorage.UI.Behaviors
                 }
                 else
                 {
-                    BindingOperations.ClearBinding(d,IsChangedProperty);
-                    BindingOperations.ClearBinding(d,OriginalValueProperty);
+                    BindingOperations.ClearBinding(d, IsChangedProperty);
+                    BindingOperations.ClearBinding(d, OriginalValueProperty);
                 }
             }
         }
 
-        private static void OnOriginalValuePropertyConverterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnOriginalValuePropertyConverterChanged(DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
         {
             if (BindingOperations.GetBinding(d, OriginalValueProperty) is { } originalValueBinding)
-            {
                 CreateOriginalValueBinding(d, originalValueBinding.Path.Path);
-            }
         }
 
         private static void CreateOriginalValueBinding(DependencyObject d, string originalValueBindingPath)

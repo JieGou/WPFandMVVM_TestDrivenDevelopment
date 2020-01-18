@@ -46,7 +46,9 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="FontWeight" Value="Bold" />
                         </Trigger>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Friend.IsChanged}" Value="true">
+                        <DataTrigger
+                            Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Friend.IsChanged}"
+                            Value="true">
                             <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}" />
                         </DataTrigger>
                     </Style.Triggers>

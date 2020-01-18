@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Data;
 using FriendStorage.UI.DataProvider.Lookups;
@@ -16,9 +14,7 @@ namespace FriendStorage.UI.Converters
             if (!(value is int id)) return null;
 
             if (parameter is ComboBox comboBox && comboBox.ItemsSource != null)
-            {
                 return comboBox.ItemsSource.OfType<LookupItem>().SingleOrDefault(i => i.Id == id)?.DisplayValue;
-            }
 
             return null;
         }

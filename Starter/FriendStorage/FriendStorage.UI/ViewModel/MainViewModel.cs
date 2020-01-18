@@ -108,7 +108,7 @@ namespace FriendStorage.UI.ViewModel
         public void OnClosing(CancelEventArgs cancelEventArgs)
         {
             if (!IsChanged) return;
-            
+
             var result = _messageDialogService.ShowYesNoDialog("Close application?",
                 "You'll lose your changes if you close this application. Close it?",
                 MessageDialogResult.No);
