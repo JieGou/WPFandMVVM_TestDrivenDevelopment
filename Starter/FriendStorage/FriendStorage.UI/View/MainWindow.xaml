@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:view="clr-namespace:FriendStorage.UI.View"
         Title="FriendStorage" FontSize="{StaticResource DefaultFontSize}"
-        MinHeight="650" MinWidth="900" Height="650" Width="920"
+        MinHeight="650" MinWidth="900" Height="650" Width="900"
         WindowStartupLocation="CenterScreen"
         Background="Black" Icon="..\FriendStorageIcon.png">
   <Grid>
@@ -40,7 +40,7 @@
                 SelectedItem="{Binding SelectedFriendEditViewModel, Mode=TwoWay}" 
                 Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Background="Black">
       <TabControl.ItemContainerStyle>
-        <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+        <Style TargetType="TabItem">
           <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
               <Setter Property="FontWeight" Value="Bold"/>
@@ -51,7 +51,7 @@
       <TabControl.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Friend.FirstName,ValidatesOnNotifyDataErrors=False}"/>
+            <TextBlock Text="{Binding Friend.FirstName}"/>
             <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0"/>
             <Button Content="X" Command="{Binding RelativeSource=
                                   {RelativeSource FindAncestor,
@@ -72,6 +72,6 @@
     </TabControl>
 
     <!--Footer-->
-    <TextBlock Text="Created by Thomas Claudius Huber, 2016" Margin="10" Grid.Row="3" Grid.ColumnSpan="3" Foreground="LightGray" />
+    <TextBlock Text="Created by Thomas Claudius Huber, 2015" Margin="10" Grid.Row="3" Grid.ColumnSpan="3" Foreground="LightGray" />
   </Grid>
 </Window>

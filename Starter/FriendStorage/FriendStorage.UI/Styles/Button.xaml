@@ -74,24 +74,39 @@
     </Setter>
   </Style>
 
-  <Style x:Key="NavigationButtonStyle" TargetType="Button">
-    <Setter Property="Foreground" Value="White"/>
-    <Setter Property="Padding" Value="3"/>
-    <Setter Property="Margin" Value="2 2 2 0"/>
+  <Style x:Key="RemoveButtonStyle" TargetType="Button">
+    <Setter Property="Width" Value="20"/>
+    <Setter Property="Height" Value="20"/>
+    <Setter Property="Margin" Value="5"/>
+    <Setter Property="HorizontalAlignment" Value="Left"/>
+    <Setter Property="ToolTip" Value="Remove"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
-          <Grid x:Name="grid" Background="#444444">
-            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+          <Grid Background="Transparent">
+            <Viewbox>
+              <Path x:Name="path" Width="14" Height="14" Stroke="LightCoral" StrokeThickness="3" RenderTransformOrigin="0.5 0.5">
+                <Path.Data>
+                  <GeometryGroup>
+                    <LineGeometry StartPoint="0,7" EndPoint="14,7"/>
+                    <LineGeometry StartPoint="7,0" EndPoint="7,14"/>
+                  </GeometryGroup>
+                </Path.Data>
+                <Path.RenderTransform>
+                  <RotateTransform Angle="45"/>
+                </Path.RenderTransform>
+              </Path>
+            </Viewbox>
           </Grid>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="grid" Property="Background" Value="#777777"/>
-              <Setter Property="Cursor" Value="Hand"/>
+              <Setter TargetName="path" Property="Stroke" Value="#CCCCCC"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="grid" Property="Background" Value="#999999"/>
-              <Setter Property="Cursor" Value="Hand"/>
+              <Setter TargetName="path" Property="Stroke" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="path" Property="Stroke" Value="Gray"/>
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>

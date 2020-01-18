@@ -50,10 +50,19 @@ namespace FriendStorage.DataAccess
     private void InsertFriend(Friend friend)
     {
       var friends = ReadFromFile();
-      var maxFriendId = friends.Count == 0 ? 0 : friends.Max(f => f.Id);
+      var maxFriendId = friends.Max(f => f.Id);
       friend.Id = maxFriendId + 1;
       friends.Add(friend);
       SaveToFile(friends);
+    }
+
+    public IEnumerable<FriendGroup> GetAllFriendGroups()
+    {
+      // Just yielding back four hard-coded groups
+      yield return new FriendGroup { Id = 1, Name = "Family" };
+      yield return new FriendGroup { Id = 2, Name = "Friends" };
+      yield return new FriendGroup { Id = 3, Name = "Colleague" };
+      yield return new FriendGroup { Id = 4, Name = "Other" };
     }
 
     public IEnumerable<Friend> GetAllFriends()
@@ -79,22 +88,22 @@ namespace FriendStorage.DataAccess
       {
         return new List<Friend>
                 {
-                    new Friend{Id=1,FirstName = "Thomas",LastName="Huber",
-                        Birthday = new DateTime(1980,10,28), IsDeveloper = true},
-                    new Friend{Id=2,FirstName = "Julia",LastName="Huber",
-                        Birthday = new DateTime(1982,10,10)},
-                    new Friend{Id=3,FirstName="Anna",LastName="Huber",
-                        Birthday = new DateTime(2011,05,13)},
-                    new Friend{Id=4,FirstName="Sara",LastName="Huber",
-                        Birthday = new DateTime(2013,02,25)},
-                    new Friend{Id=5,FirstName = "Andreas",LastName="Böhler",
-                        Birthday = new DateTime(1981,01,10), IsDeveloper = true},
-                    new Friend{Id=6,FirstName="Urs",LastName="Meier",
-                        Birthday = new DateTime(1970,03,5), IsDeveloper = true},
-                     new Friend{Id=7,FirstName="Chrissi",LastName="Heuberger",
-                        Birthday = new DateTime(1987,07,16)},
-                     new Friend{Id=8,FirstName="Erkan",LastName="Egin",
-                        Birthday = new DateTime(1983,05,23)},
+                    new Friend{Id=1,FirstName = "Thomas",LastName="Huber",Address=new Address{City="Müllheim",Street="Elmstreet",StreetNumber = "12345"},
+                        Birthday = new DateTime(1980,10,28), IsDeveloper = true,Emails=new List<FriendEmail>{new FriendEmail{Email="thomas@thomasclaudiushuber.com"}},FriendGroupId = 1},
+                    new Friend{Id=2,FirstName = "Julia",LastName="Huber",Address=new Address{City="Müllheim",Street="Elmstreet",StreetNumber = "12345"},
+                        Birthday = new DateTime(1982,10,10),Emails=new List<FriendEmail>{new FriendEmail{Email="julia@juhu-design.com"}},FriendGroupId = 1},
+                    new Friend{Id=3,FirstName="Anna",LastName="Huber",Address=new Address{City="Müllheim",Street="Elmstreet",StreetNumber = "12345"},
+                        Birthday = new DateTime(2011,05,13),Emails=new List<FriendEmail>(),FriendGroupId = 1},
+                    new Friend{Id=4,FirstName="Sara",LastName="Huber",Address=new Address{City="Müllheim",Street="Elmstreet",StreetNumber = "12345"},
+                        Birthday = new DateTime(2013,02,25),Emails=new List<FriendEmail>(),FriendGroupId = 1},
+                    new Friend{Id=5,FirstName = "Andreas",LastName="Böhler",Address=new Address{City="Tiengen",Street="Hardstreet",StreetNumber = "5"},
+                        Birthday = new DateTime(1981,01,10), IsDeveloper = true,Emails=new List<FriendEmail>{new FriendEmail{Email="andreas@strenggeheim.de"}},FriendGroupId = 2},
+                    new Friend{Id=6,FirstName="Urs",LastName="Meier",Address=new Address{City="Bern",Street="Baslerstrasse",StreetNumber = "17"},
+                        Birthday = new DateTime(1970,03,5), IsDeveloper = true,Emails=new List<FriendEmail>{new FriendEmail{Email="urs@strenggeheim.ch"}},FriendGroupId = 2},
+                     new Friend{Id=7,FirstName="Chrissi",LastName="Heuberger",Address=new Address{City="Hillhome",Street="Freiburgerstrasse",StreetNumber = "32"},
+                        Birthday = new DateTime(1987,07,16),Emails=new List<FriendEmail>{new FriendEmail{Email="chrissi@web.de"}},FriendGroupId = 2},
+                     new Friend{Id=8,FirstName="Erkan",LastName="Egin",Address=new Address{City="Neuenburg",Street="Rheinweg",StreetNumber = "4"},
+                        Birthday = new DateTime(1983,05,23),Emails=new List<FriendEmail>{new FriendEmail{Email="erko@web.de"}},FriendGroupId = 2},
                 };
       }
 

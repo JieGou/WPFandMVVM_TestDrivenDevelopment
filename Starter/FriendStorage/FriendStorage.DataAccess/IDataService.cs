@@ -4,14 +4,16 @@ using FriendStorage.Model;
 
 namespace FriendStorage.DataAccess
 {
-  public interface IDataService : IDisposable
-  {
-    Friend GetFriendById(int friendId);
+    public interface IDataService : IDisposable
+    {
+        Friend GetFriendById(int friendId);
 
-    void SaveFriend(Friend friend);
+        void SaveFriend(Friend friend);
 
-    void DeleteFriend(int friendId);
+        void DeleteFriend(int friendId);
 
-    IEnumerable<Friend> GetAllFriends();
-  }
+        IEnumerable<Friend> GetAllFriends();
+
+        IEnumerable<FriendGroup> GetAllFriendGroups();
+    }
 }
