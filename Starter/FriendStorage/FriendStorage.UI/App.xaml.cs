@@ -6,18 +6,18 @@ using FriendStorage.UI.ViewModel;
 
 namespace FriendStorage.UI
 {
-  public partial class App : Application
-  {
-    protected override void OnStartup(StartupEventArgs e)
+    public partial class App : Application
     {
-      base.OnStartup(e);
-      var bootstrapper = new Bootstrapper();
-      IContainer container = bootstrapper.Bootstrap();
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var bootstrapper = new Bootstrapper();
+            var container = bootstrapper.Bootstrap();
 
-      var mainViewModel = container.Resolve<MainViewModel>();
-      MainWindow = new MainWindow(mainViewModel);
-      MainWindow.Show();
-      mainViewModel.Load();
+            var mainViewModel = container.Resolve<MainViewModel>();
+            MainWindow = new MainWindow(mainViewModel);
+            MainWindow.Show();
+            mainViewModel.Load();
+        }
     }
-  }
 }
