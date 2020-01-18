@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
 namespace FriendStorage.UI.Behaviors
@@ -20,7 +21,8 @@ namespace FriendStorage.UI.Behaviors
 
         private static readonly Dictionary<Type,DependencyProperty> _defaultProperties = new Dictionary<Type, DependencyProperty>()
         {
-            [typeof(TextBox)] = TextBox.TextProperty
+            [typeof(TextBox)] = TextBox.TextProperty,
+            [typeof(CheckBox)] = ToggleButton.IsCheckedProperty,
         };  
 
         public static void SetIsActive(DependencyObject element, bool value)
