@@ -31,14 +31,10 @@
 
         <Label Content="Firstname" Margin="5" />
         <TextBox Text="{Binding Friend.FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                 behaviors:ChangeBehavior.IsChanged="{Binding Friend.FirstNameIsChanged}"
-                 behaviors:ChangeBehavior.OriginalValue="{Binding Friend.FirstNameOriginalValue}"
                  Grid.Column="1" />
 
         <Label Content="Lastname" Grid.Row="2" Margin="5" />
         <TextBox Text="{Binding Friend.LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                 behaviors:ChangeBehavior.IsChanged="{Binding Friend.LastNameIsChanged}"
-                 behaviors:ChangeBehavior.OriginalValue="{Binding Friend.LastNameOriginalValue}"
                  Grid.Row="2"
                  Grid.Column="1" />
 

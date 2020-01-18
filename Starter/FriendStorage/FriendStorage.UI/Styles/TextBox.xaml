@@ -6,7 +6,7 @@
         <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource DefaultBorderBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-
+        <Setter Property="behaviors:ChangeBehavior.IsActive" Value="True" />
         <Style.Triggers>
             <Trigger Property="behaviors:ChangeBehavior.IsChanged" Value="true">
                 <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}" />
