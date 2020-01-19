@@ -7,7 +7,7 @@ using FriendStorage.UI.ViewModel;
 
 namespace FriendStorage.UI.Wrapper
 {
-    public class ModelWrapper<T> : Observable, IRevertibleChangeTracking
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IRevertibleChangeTracking
     {
         private readonly Dictionary<string, object> _originalValues;
         private readonly List<IRevertibleChangeTracking> _trackingObjects;
