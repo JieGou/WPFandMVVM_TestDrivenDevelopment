@@ -28,7 +28,7 @@ namespace FriendStorage.UI.Wrapper
             get { return _originalValues.Count > 0 || _trackingObjects.Any(t => t.IsChanged); }
         }
 
-        public bool IsValid => throw new NotImplementedException();
+        public bool IsValid => !HasErrors;
 
 
         public void AcceptChanges()
@@ -89,11 +89,13 @@ namespace FriendStorage.UI.Wrapper
             {
                 Errors[propertyName] = results.Select(r => r.ErrorMessage).Distinct().ToList();
                 OnErrorsChanged(propertyName);
+                OnPropertyChanged(nameof(IsValid));
             }
             else if(Errors.ContainsKey(propertyName))
             {
                 Errors.Remove(propertyName);
                 OnErrorsChanged(propertyName);
+                OnPropertyChanged(nameof(IsValid));
             }
         }
 
