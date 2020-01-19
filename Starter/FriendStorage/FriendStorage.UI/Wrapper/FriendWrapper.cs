@@ -10,8 +10,6 @@ namespace FriendStorage.UI.Wrapper
     {
         public FriendWrapper(Friend model) : base(model)
         {
-            InitializeComplexProperties(model);
-            InitializeCollectionProperties(model);
         }
 
         public int Id
@@ -87,7 +85,7 @@ namespace FriendStorage.UI.Wrapper
             }
         }
 
-        private void InitializeCollectionProperties(Friend model)
+        protected override void InitializeCollectionProperties(Friend model)
         {
             if (model.Emails == null) throw new ArgumentException("Emails cannot be null");
             Emails = new ChangeTrackingCollection<FriendEmailWrapper>(
@@ -95,7 +93,7 @@ namespace FriendStorage.UI.Wrapper
             RegisterCollection(Emails, model.Emails);
         }
 
-        private void InitializeComplexProperties(Friend model)
+        protected override void InitializeComplexProperties(Friend model)
         {
             if (model.Address == null) throw new ArgumentException("Address cannot be null");
             Address = new AddressWrapper(model.Address);

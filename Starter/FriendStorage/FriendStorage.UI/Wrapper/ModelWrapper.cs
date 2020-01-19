@@ -19,7 +19,17 @@ namespace FriendStorage.UI.Wrapper
             Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IValidatableTrackingObject>();
+            InitializeComplexProperties(model);
+            InitializeCollectionProperties(model);
             Validate();
+        }
+
+        protected virtual void InitializeComplexProperties(T model)
+        {
+        }
+
+        protected virtual void InitializeCollectionProperties(T model)
+        {
         }
 
         public T Model { get; }
