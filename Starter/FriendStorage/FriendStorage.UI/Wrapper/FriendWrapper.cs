@@ -32,7 +32,6 @@ namespace FriendStorage.UI.Wrapper
 
         public bool FriendGroupIdIsChanged => GetIsChanged(nameof(FriendGroupId));
 
-        [Required(ErrorMessage = "Firstname is required")]
         public string FirstName
         {
             get => GetValue<string>();
@@ -79,6 +78,11 @@ namespace FriendStorage.UI.Wrapper
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if (string.IsNullOrEmpty(FirstName))
+            {
+                yield return new ValidationResult("Firstname is required", new []{nameof(FirstName)});
+            }
+
             if (IsDeveloper && !Emails.Any())
             {
                 yield return new ValidationResult("A developer must have an email-address", new []{nameof(IsDeveloper), nameof(Emails)});
