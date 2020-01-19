@@ -51,6 +51,11 @@
                             Value="true">
                             <Setter Property="Background" Value="{StaticResource IsChangedBackgroundBrush}" />
                         </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding RelativeSource={RelativeSource Self}, Path=Content.Friend.IsValid}"
+                            Value="false">
+                            <Setter Property="Background" Value="{StaticResource HasErrorBackgroundBrush}" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </TabControl.ItemContainerStyle>
