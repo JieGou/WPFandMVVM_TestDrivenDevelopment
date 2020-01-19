@@ -57,7 +57,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Friend.FirstName}" />
+                        <TextBlock Text="{Binding Friend.FirstName, ValidatesOnNotifyDataErrors=False}" />
                         <TextBlock Text="{Binding Friend.LastName}" Margin="5 0 20 0" />
                         <Button Content="X"
                                 Command="{Binding RelativeSource=
