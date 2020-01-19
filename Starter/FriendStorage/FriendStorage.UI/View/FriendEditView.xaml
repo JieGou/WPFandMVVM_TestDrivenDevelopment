@@ -86,7 +86,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <controls:ChangeTrackingCollectionInfo DataContext="{Binding Friend.Emails, ValidatesOnNotifyDataErrors=False}" Grid.Row="7" Grid.Column="1"
+        <controls:ChangeTrackingCollectionInfo DataContext="{Binding Friend.Emails, ValidatesOnNotifyDataErrors=False}"
+                                               Grid.Row="7" Grid.Column="1"
                                                Grid.ColumnSpan="4" />
 
         <StackPanel Grid.Row="8" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left"

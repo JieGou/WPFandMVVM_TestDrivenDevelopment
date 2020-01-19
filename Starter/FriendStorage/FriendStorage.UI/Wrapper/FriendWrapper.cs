@@ -82,8 +82,10 @@ namespace FriendStorage.UI.Wrapper
                 yield return new ValidationResult("Firstname is required", new[] {nameof(FirstName)});
 
             if (IsDeveloper && !Emails.Any())
+            {
                 yield return new ValidationResult("A developer must have an email-address",
                     new[] {nameof(IsDeveloper), nameof(Emails)});
+            }
         }
 
         protected override void InitializeCollectionProperties(Friend model)
