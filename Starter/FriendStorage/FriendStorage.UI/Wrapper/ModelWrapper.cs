@@ -99,7 +99,7 @@ namespace FriendStorage.UI.Wrapper
             ClearErrors();
             var results = new List<ValidationResult>();
             var context = new ValidationContext(this);
-            Validator.TryValidateObject(this, context, results);
+            Validator.TryValidateObject(this, context, results, true);
             if (results.Any())
             {
                 var propertyNames = results.SelectMany(r => r.MemberNames).Distinct();
