@@ -8,28 +8,26 @@ using FriendStorage.UI.ViewModel;
 
 namespace FriendStorage.UI.Wrapper
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IRevertibleChangeTracking
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject
     {
         private readonly Dictionary<string, object> _originalValues;
-        private readonly List<IRevertibleChangeTracking> _trackingObjects;
+        private readonly List<IValidatableTrackingObject> _trackingObjects;
 
         public ModelWrapper(T model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             Model = model;
             _originalValues = new Dictionary<string, object>();
-            _trackingObjects = new List<IRevertibleChangeTracking>();
+            _trackingObjects = new List<IValidatableTrackingObject>();
             Validate();
         }
 
         public T Model { get; }
 
-        public bool IsChanged
-        {
-            get { return _originalValues.Count > 0 || _trackingObjects.Any(t => t.IsChanged); }
-        }
+        public bool IsChanged => _originalValues.Count > 0 
+                                 || _trackingObjects.Any(t => t.IsChanged);
 
-        public bool IsValid => !HasErrors;
+        public bool IsValid => !HasErrors && _trackingObjects.All(t=>t.IsValid);
 
 
         public void AcceptChanges()
@@ -138,8 +136,7 @@ namespace FriendStorage.UI.Wrapper
             RegisterTrackingObject(wrapper);
         }
 
-        private void RegisterTrackingObject<TTrackingObject>(TTrackingObject trackingObject)
-            where TTrackingObject : IRevertibleChangeTracking, INotifyPropertyChanged
+        private void RegisterTrackingObject(IValidatableTrackingObject trackingObject)
         {
             if (_trackingObjects.Contains(trackingObject)) return;
 

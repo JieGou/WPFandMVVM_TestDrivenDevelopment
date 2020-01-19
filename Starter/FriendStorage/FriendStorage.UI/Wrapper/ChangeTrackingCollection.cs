@@ -13,8 +13,8 @@ namespace FriendStorage.UI.Wrapper
         }
     }
 
-    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IRevertibleChangeTracking
-        where T : class, IRevertibleChangeTracking, INotifyPropertyChanged
+    public class ChangeTrackingCollection<T> : ObservableCollection<T>, IValidatableTrackingObject
+        where T : class, IValidatableTrackingObject, INotifyPropertyChanged
     {
         private readonly ObservableCollection<T> _addedItems;
         private readonly ObservableCollection<T> _modifiedItems;
@@ -117,5 +117,7 @@ namespace FriendStorage.UI.Wrapper
             collection.Clear();
             foreach (var item in items) collection.Add(item);
         }
+
+        public bool IsValid => true;
     }
 }
