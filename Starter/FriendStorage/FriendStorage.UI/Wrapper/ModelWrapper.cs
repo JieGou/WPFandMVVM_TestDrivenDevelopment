@@ -27,6 +27,9 @@ namespace FriendStorage.UI.Wrapper
             get { return _originalValues.Count > 0 || _trackingObjects.Any(t => t.IsChanged); }
         }
 
+        public bool IsValid => throw new NotImplementedException();
+
+
         public void AcceptChanges()
         {
             _originalValues.Clear();
