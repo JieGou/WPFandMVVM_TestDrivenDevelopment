@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FriendStorage.Model;
 
@@ -32,6 +33,7 @@ namespace FriendStorage.UI.Wrapper
 
         public bool FriendGroupIdIsChanged => GetIsChanged(nameof(FriendGroupId));
 
+        [Required(ErrorMessage = "Firstname is required")]
         public string FirstName
         {
             get => GetValue<string>();
