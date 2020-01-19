@@ -19,6 +19,7 @@ namespace FriendStorage.UI.Wrapper
             Model = model;
             _originalValues = new Dictionary<string, object>();
             _trackingObjects = new List<IRevertibleChangeTracking>();
+            Validate();
         }
 
         public T Model { get; }
@@ -44,6 +45,7 @@ namespace FriendStorage.UI.Wrapper
                 typeof(T).GetProperty(originalValueEntry.Key).SetValue(Model, originalValueEntry.Value);
             _originalValues.Clear();
             foreach (var trackingObject in _trackingObjects) trackingObject.RejectChanges();
+            Validate();
             OnPropertyChanged("");
         }
 
@@ -74,29 +76,32 @@ namespace FriendStorage.UI.Wrapper
             {
                 UpdateOriginalValue(currentValue, newValue, propertyName);
                 propertyInfo.SetValue(Model, newValue);
-                ValidateProperty(propertyName, newValue);
+                Validate();
                 OnPropertyChanged(propertyName);
                 OnPropertyChanged(propertyName + "IsChanged");
             }
         }
 
-        private void ValidateProperty(string propertyName, object newValue)
+        private void Validate()
         {
+            ClearErrors();
             var results = new List<ValidationResult>();
-            var context = new ValidationContext(this) {MemberName = propertyName};
-            Validator.TryValidateProperty(newValue, context, results);
+            var context = new ValidationContext(this);
+            Validator.TryValidateObject(this, context, results);
             if (results.Any())
             {
-                Errors[propertyName] = results.Select(r => r.ErrorMessage).Distinct().ToList();
-                OnErrorsChanged(propertyName);
-                OnPropertyChanged(nameof(IsValid));
+                var propertyNames = results.SelectMany(r => r.MemberNames).Distinct();
+                foreach (var propertyName in propertyNames)
+                {
+                    Errors[propertyName] = results
+                        .Where(r=>r.MemberNames.Contains(propertyName))
+                        .Select(r => r.ErrorMessage)
+                        .Distinct()
+                        .ToList();
+                    OnErrorsChanged(propertyName);
+                } 
             }
-            else if(Errors.ContainsKey(propertyName))
-            {
-                Errors.Remove(propertyName);
-                OnErrorsChanged(propertyName);
-                OnPropertyChanged(nameof(IsValid));
-            }
+            OnPropertyChanged(nameof(IsValid));
         }
 
         private void UpdateOriginalValue(object currentValue, object newValue, string propertyName)
