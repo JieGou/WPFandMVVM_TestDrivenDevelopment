@@ -91,7 +91,7 @@ namespace FriendStorage.UI.Tests.Wrapper
 
             wrapper.FirstName = "Julia";
             Assert.False(wrapper.HasErrors);
-        } 
+        }
 
         [Fact]
         public void ShouldSetErrorsAndIsValidAfterInitialization()

@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using FriendStorage.UI.ViewModel;
 
 namespace FriendStorage.UI.Wrapper
 {
@@ -24,20 +23,17 @@ namespace FriendStorage.UI.Wrapper
             Validate();
         }
 
-        protected virtual void InitializeComplexProperties(T model)
-        {
-        }
-
-        protected virtual void InitializeCollectionProperties(T model)
-        {
-        }
-
         public T Model { get; }
 
-        public bool IsChanged => _originalValues.Count > 0 
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
+
+        public bool IsChanged => _originalValues.Count > 0
                                  || _trackingObjects.Any(t => t.IsChanged);
 
-        public bool IsValid => !HasErrors && _trackingObjects.All(t=>t.IsValid);
+        public bool IsValid => !HasErrors && _trackingObjects.All(t => t.IsValid);
 
 
         public void AcceptChanges()
@@ -55,6 +51,14 @@ namespace FriendStorage.UI.Wrapper
             foreach (var trackingObject in _trackingObjects) trackingObject.RejectChanges();
             Validate();
             OnPropertyChanged("");
+        }
+
+        protected virtual void InitializeComplexProperties(T model)
+        {
+        }
+
+        protected virtual void InitializeCollectionProperties(T model)
+        {
         }
 
         protected TValue GetValue<TValue>([CallerMemberName] string propertyName = null)
@@ -102,13 +106,14 @@ namespace FriendStorage.UI.Wrapper
                 foreach (var propertyName in propertyNames)
                 {
                     Errors[propertyName] = results
-                        .Where(r=>r.MemberNames.Contains(propertyName))
+                        .Where(r => r.MemberNames.Contains(propertyName))
                         .Select(r => r.ErrorMessage)
                         .Distinct()
                         .ToList();
                     OnErrorsChanged(propertyName);
-                } 
+                }
             }
+
             OnPropertyChanged(nameof(IsValid));
         }
 
@@ -166,11 +171,6 @@ namespace FriendStorage.UI.Wrapper
                     OnPropertyChanged(nameof(IsValid));
                     break;
             }
-        }
-
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            yield break;
         }
     }
 }

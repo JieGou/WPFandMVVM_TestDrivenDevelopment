@@ -20,6 +20,7 @@ namespace FriendStorage.UI.Wrapper
                 ? Errors[propertyName]
                 : Enumerable.Empty<string>();
         }
+
         protected void ClearErrors()
         {
             foreach (var propertyName in Errors.Keys)

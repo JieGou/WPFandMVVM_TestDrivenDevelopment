@@ -6,31 +6,27 @@ using Xunit;
 
 namespace FriendStorage.UI.Tests.Wrapper
 {
-    
     public class ValidationClassLevel
     {
-        private Friend _friend;
-
         public ValidationClassLevel()
         {
             _friend = new Friend
             {
                 FirstName = "Thomas",
-                Address = new Address { City = "Müllheim" },
+                Address = new Address {City = "Müllheim"},
                 Emails = new List<FriendEmail>
                 {
-                    new FriendEmail { Email="thomas@thomasclaudiushuber.com" },
-                    new FriendEmail {Email="julia@juhu-design.com" }
+                    new FriendEmail {Email = "thomas@thomasclaudiushuber.com"},
+                    new FriendEmail {Email = "julia@juhu-design.com"}
                 }
             };
         }
-        
+
+        private readonly Friend _friend;
 
         [Fact]
-        public void ShouldHaveErrorsAndNotBeValidWhenIsDeveloperIsTrueAndNoEmailExists()
+        public void ShouldBeValidAgainWhenEmailIsAdded()
         {
-            var expectedError = "A developer must have an email-address";
-
             var wrapper = new FriendWrapper(_friend);
             wrapper.Emails.Clear();
             Assert.False(wrapper.IsDeveloper);
@@ -39,13 +35,14 @@ namespace FriendStorage.UI.Tests.Wrapper
             wrapper.IsDeveloper = true;
             Assert.False(wrapper.IsValid);
 
+            wrapper.Emails.Add(new FriendEmailWrapper(new FriendEmail {Email = "thomas@thomasclaudiushuber.com"}));
+            Assert.True(wrapper.IsValid);
+
             var emailsErrors = wrapper.GetErrors(nameof(wrapper.Emails)).Cast<string>().ToList();
-            Assert.Equal(1, emailsErrors.Count);
-            Assert.Equal(expectedError, emailsErrors.Single());
+            Assert.Equal(0, emailsErrors.Count);
 
             var isDeveloperErrors = wrapper.GetErrors(nameof(wrapper.IsDeveloper)).Cast<string>().ToList();
-            Assert.Equal(1, isDeveloperErrors.Count);
-            Assert.Equal(expectedError, isDeveloperErrors.Single());
+            Assert.Equal(0, isDeveloperErrors.Count);
         }
 
         [Fact]
@@ -70,9 +67,12 @@ namespace FriendStorage.UI.Tests.Wrapper
             Assert.Equal(0, isDeveloperErrors.Count);
         }
 
+
         [Fact]
-        public void ShouldBeValidAgainWhenEmailIsAdded()
+        public void ShouldHaveErrorsAndNotBeValidWhenIsDeveloperIsTrueAndNoEmailExists()
         {
+            var expectedError = "A developer must have an email-address";
+
             var wrapper = new FriendWrapper(_friend);
             wrapper.Emails.Clear();
             Assert.False(wrapper.IsDeveloper);
@@ -81,14 +81,13 @@ namespace FriendStorage.UI.Tests.Wrapper
             wrapper.IsDeveloper = true;
             Assert.False(wrapper.IsValid);
 
-            wrapper.Emails.Add(new FriendEmailWrapper(new FriendEmail { Email = "thomas@thomasclaudiushuber.com" }));
-            Assert.True(wrapper.IsValid);
-
             var emailsErrors = wrapper.GetErrors(nameof(wrapper.Emails)).Cast<string>().ToList();
-            Assert.Equal(0, emailsErrors.Count);
+            Assert.Equal(1, emailsErrors.Count);
+            Assert.Equal(expectedError, emailsErrors.Single());
 
             var isDeveloperErrors = wrapper.GetErrors(nameof(wrapper.IsDeveloper)).Cast<string>().ToList();
-            Assert.Equal(0, isDeveloperErrors.Count);
+            Assert.Equal(1, isDeveloperErrors.Count);
+            Assert.Equal(expectedError, isDeveloperErrors.Single());
         }
 
         [Fact]
