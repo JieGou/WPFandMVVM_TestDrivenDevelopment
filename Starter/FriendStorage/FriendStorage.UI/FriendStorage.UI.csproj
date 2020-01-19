@@ -16,6 +16,13 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Wrapper\Generated\GenerateModelWrappers.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenerateModelWrappers.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Prism.Core" Version="7.2.0.1422" />
   </ItemGroup>
@@ -33,5 +40,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FriendStorageIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Wrapper\Generated\GenerateModelWrappers.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GenerateModelWrappers.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Wrapper\Generated\GenerateModelWrappers.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenerateModelWrappers.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
