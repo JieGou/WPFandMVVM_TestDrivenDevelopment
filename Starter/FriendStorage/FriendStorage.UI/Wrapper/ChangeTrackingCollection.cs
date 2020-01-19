@@ -42,6 +42,7 @@ namespace FriendStorage.UI.Wrapper
         public ReadOnlyObservableCollection<T> ModifiedItems { get; }
 
         public bool IsChanged => AddedItems.Count > 0 || RemovedItems.Count > 0 || ModifiedItems.Count > 0;
+        public bool IsValid => this.All(i => i.IsValid);
 
         public void AcceptChanges()
         {
@@ -83,10 +84,17 @@ namespace FriendStorage.UI.Wrapper
 
             base.OnCollectionChanged(e);
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsValid)));
         }
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == nameof(IsValid))
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsValid)));
+                return;
+            }
+
             var item = (T) sender;
             if (_addedItems.Contains(item)) return;
 
@@ -117,7 +125,5 @@ namespace FriendStorage.UI.Wrapper
             collection.Clear();
             foreach (var item in items) collection.Add(item);
         }
-
-        public bool IsValid => true;
     }
 }
