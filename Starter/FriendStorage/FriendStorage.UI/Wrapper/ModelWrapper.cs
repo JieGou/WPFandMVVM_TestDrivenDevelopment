@@ -146,7 +146,15 @@ namespace FriendStorage.UI.Wrapper
 
         private void TrackingObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(IsChanged)) OnPropertyChanged(nameof(IsChanged));
+            switch (e.PropertyName)
+            {
+                case nameof(IsChanged):
+                    OnPropertyChanged(nameof(IsChanged));
+                    break;
+                case nameof(IsValid):
+                    OnPropertyChanged(nameof(IsValid));
+                    break;
+            }
         }
     }
 }
