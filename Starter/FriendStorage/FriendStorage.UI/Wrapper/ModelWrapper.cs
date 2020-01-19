@@ -8,7 +8,7 @@ using FriendStorage.UI.ViewModel;
 
 namespace FriendStorage.UI.Wrapper
 {
-    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject
+    public class ModelWrapper<T> : NotifyDataErrorInfoBase, IValidatableTrackingObject, IValidatableObject
     {
         private readonly Dictionary<string, object> _originalValues;
         private readonly List<IValidatableTrackingObject> _trackingObjects;
@@ -127,6 +127,7 @@ namespace FriendStorage.UI.Wrapper
             {
                 modelCollection.Clear();
                 modelCollection.AddRange(wrapperCollection.Select(w => w.Model));
+                Validate();
             };
             RegisterTrackingObject(wrapperCollection);
         }
@@ -155,6 +156,11 @@ namespace FriendStorage.UI.Wrapper
                     OnPropertyChanged(nameof(IsValid));
                     break;
             }
+        }
+
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            yield break;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FriendStorage.Model;
@@ -77,6 +78,14 @@ namespace FriendStorage.UI.Wrapper
         public AddressWrapper Address { get; private set; }
 
         public ChangeTrackingCollection<FriendEmailWrapper> Emails { get; private set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (IsDeveloper && !Emails.Any())
+            {
+                yield return new ValidationResult("A developer must have an email-address", new []{nameof(IsDeveloper), nameof(Emails)});
+            }
+        }
 
         private void InitializeCollectionProperties(Friend model)
         {
